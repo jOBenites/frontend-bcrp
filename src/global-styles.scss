@@ -1,0 +1,48 @@
+@use '@angular/material' as mat;
+// @use "bootstrap/scss/bootstrap";
+@use './m3-theme' as theme;
+
+@font-face {
+  font-family: AlfaSlabOne;
+  src: url('../public/assets/fonts/AlfaSlabOne-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Amiko;
+  src: url('../public/assets/fonts/Amiko-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  @include mat.all-component-themes(theme.$light-theme);
+  @include mat.system-level-colors(theme.$light-theme);
+  // @include mat.system-level-typography(theme.$light-theme);
+  height: 100%;
+}
+
+body {
+  font-family: Amiko, sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+.header-title {
+  font-family: AlfaSlabOne, serif;
+}
+
+.btn-custom-accent {
+  background-color: theme.$accent !important;
+}
+
+.mat-divider {
+  border-top-color: #ffffff !important;
+}
+
+.mat-expansion-indicator {
+  color: theme.$font-primary !important;
+  & svg {
+    fill: theme.$font-primary !important;
+  }
+}

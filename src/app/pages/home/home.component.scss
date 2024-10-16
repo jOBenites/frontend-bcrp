@@ -1,0 +1,135 @@
+@import '../../../m3-theme.scss';
+
+.sidenav-container {
+  height: calc(100vh - var(--mat-toolbar-standard-height));
+}
+
+mat-sidenav-content {
+  background-color: $base-page !important;
+}
+
+mat-sidenav {
+  background-color: $primary !important;
+  transition: width 0.25s !important;
+}
+
+mat-toolbar {
+  width: 100%;
+}
+.mat-drawer,
+.mat-expansion-panel {
+  border-radius: 0 !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.mat-expansion-panel-header {
+  min-width: 65px !important;
+  padding-left: 16px !important;
+}
+
+mat-expansion-panel-header {
+  background-color: $primary;
+}
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]).cdk-keyboard-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]).cdk-program-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+  background: $accent;
+}
+
+.mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: $accent;
+}
+
+#avatar {
+  border: 2px solid $primary;
+  border-radius: 50%;
+  cursor: pointer !important;
+  background-color: #ffffff;
+}
+
+.toggle_menu_mobile {
+  display: none;
+}
+
+mat-progress-spinner {
+  position: fixed;
+  z-index: 999;
+  height: 4em;
+  width: em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+mat-list-item {
+  height: 35px !important;
+  text-align: center !important;
+}
+
+.title-fixed {
+  background-color: $primary;
+  clip-path: polygon(90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%, 10% 0);
+  padding: 10px 0;
+  width: 300px;
+  position: fixed;
+  z-index: 9;
+  top: 30px;
+  color: #ffffff;
+  height: 19px;
+}
+
+.title-fixed>div {
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.toolbar-main {
+  background-color: $toolbar-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.toolbar-main-drawer {
+  background-color: $primary;
+  color: #ffffff;
+}
+
+.text-option-drawer {
+  color: $font-primary !important;
+}
+
+.font-secondary {
+  color: $font-color-secondary !important;
+  font-size: 0.6em
+}
+
+.title-logo {
+  text-align: left;
+}
+
+@media only screen and (max-width:480px) {
+  .toggle_menu_desktop {
+    display: none;
+  }
+
+  .toggle_menu_mobile {
+    display: initial;
+  }
+
+  .title-logo {
+    margin: auto;
+    text-align: center;
+  }
+
+  .sidenav-container {
+    height: calc(100vh - var(--mat-toolbar-mobile-height));
+  }
+}
