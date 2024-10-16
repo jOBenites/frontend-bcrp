@@ -5,7 +5,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component'
 import { UsuariosComponent } from './pages/home/usuarios/usuarios.component';
 import { SistemasComponent } from './pages/home/sistemas/sistemas.component';
 import { FormSistemaComponent } from './pages/home/sistemas/form-sistema/form-sistema.component';
-import { ListadoSistemaComponent } from './pages/home/sistemas/listado-sistema/listado-sistema.component';
 import { EntidadesComponent } from './pages/home/entidades/entidades.component';
 import { FormEntidadComponent } from './pages/home/entidades/form-entidad/form-entidad.component';
 
@@ -13,20 +12,9 @@ export const routes: Routes = [
   { path: 'home', 
     component: HomeComponent, 
     children: [
-    { path: 'usuarios', 
-      component: UsuariosComponent },
-    { path: 'sistemas', 
-      component: SistemasComponent, 
-      children: [
-        { path: 'listado', 
-          component: ListadoSistemaComponent },
-        { path: 'listado/formulario', 
-          component: FormSistemaComponent },
-        { path: '', 
-          redirectTo: 'listado', 
-          pathMatch: 'full'}
-      ]
-    },
+    { path: 'usuarios', component: UsuariosComponent },
+    { path: 'sistemas', component: SistemasComponent },
+    { path: 'sistemas/formulario', component: FormSistemaComponent },
     { path: 'entidades', component: EntidadesComponent },
     { path: 'entidades/nueva-entidad', component: FormEntidadComponent }
   ] },

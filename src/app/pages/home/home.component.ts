@@ -125,12 +125,12 @@ export class HomeComponent implements OnInit {
 
   drawerToogle() {
     this.modo__ = DrawerMode.Side;
-    // this.allExpandState = false;
-    // if (this.sidenavWidth >= 16) {
-    //   this.decrease();
-    // } else {
-    //   this.increase();
-    // }
+    this.allExpandState = false;
+    if (this.sidenavWidth >= 19) {
+      this.decrease();
+    } else {
+      this.increase();
+    }
   }
 
   drawerToogleMovile() {
@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
   }
 
   increase() {
-    this.sidenavWidth = 16;
+    this.sidenavWidth = 19;
     this.hideArrow = false;
   }
 

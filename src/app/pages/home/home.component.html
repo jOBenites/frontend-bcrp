@@ -4,12 +4,12 @@
     <button type="button" mat-icon-button (click)="drawer.toggle(); drawerToogleMovile()" class="toggle_menu_mobile">
       <mat-icon md-list-icon>menu</mat-icon>
     </button>
-    <button type="button" mat-icon-button (click)="drawer.toggle(); drawerToogle();" class="toggle_menu_desktop ml-auto">
+    <button type="button" mat-icon-button (click)="drawer.open(); drawerToogle();" class="toggle_menu_desktop ml-auto">
       <mat-icon md-list-icon>menu</mat-icon>
     </button>
 
     <img [src]="('logo' | loadPicture: 'svg')" alt="bcrp" width="50px" height="50%">
-    <h2 class="font-weight-bold title-logo toggle_menu_desktop">Banco Central de Reserva del Perú</h2>
+    <h1 class="title-logo toggle_menu_desktop">Banco Central de Reserva del Perú</h1>
    </div>
     <!-- <div mat-card-avatar class="example-header-image"></div> -->
     <button id="avatar" class="ml-auto" mat-mini-fab [matMenuTriggerFor]="menu">
@@ -30,10 +30,13 @@
 
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" autosize="true">
   <mat-sidenav #drawer [mode]="modo__" role="navigation" [ngStyle]="{ 'width.em': sidenavWidth }" opened="true">
     <mat-nav-list style="text-align: center">
-      <mat-toolbar class="toolbar-main-drawer"><small>Seguridad Centralizada de Aplicaciones</small></mat-toolbar>
+      <mat-toolbar class="toolbar-main-drawer">
+        <small *ngIf="sidenavWidth > 6">Seguridad Centralizada de Aplicaciones</small>
+        <small *ngIf="sidenavWidth <= 6">SCA</small>
+      </mat-toolbar>
       <mat-divider class="text-white"></mat-divider>
       
       <mat-expansion-panel *ngFor="let opcion of menus?.opciones" class="mat-elevation-z0" [hideToggle]="hideArrow" [expanded]="false">
@@ -42,12 +45,13 @@
             <mat-icon class="font-weight-bold text-option-drawer" md-list-icon>{{opcion.icono}}</mat-icon>
           </mat-panel-title>
           <mat-panel-description style="flex-basis: 100%">
-            <h6 class="font-weight-bold text-option-drawer">{{opcion.titulo}}</h6>
+            <h6 *ngIf="sidenavWidth > 6" class="font-weight-bold text-option-drawer">{{opcion.titulo}}</h6>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-list *ngIf="opcion.subopciones.length > 0">
           <mat-list-item *ngFor="let subopcion of opcion.subopciones" [routerLink]="[subopcion.url]" [routerLinkActive]="'is-active'">
-            <div class="text-center" matListItemTitle>{{subopcion.titulo}}</div>
+            <mat-icon matListItemIcon>fiber_manual_record</mat-icon>
+            <div *ngIf="sidenavWidth > 6"  class="text-center" matListItemTitle>{{subopcion.titulo}}</div>
           </mat-list-item>
         </mat-list>
       </mat-expansion-panel>
@@ -56,7 +60,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <!-- <div class="container-fluid">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -64,8 +68,7 @@
 
         </div>
       </div>
-    </div> -->
-    <router-outlet></router-outlet>
+    </div>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

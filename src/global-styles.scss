@@ -32,10 +32,21 @@ body {
   font-family: AlfaSlabOne, serif;
 }
 
+/*START BUTTONS*/
+.btn-custom-primary {
+  background-color: theme.$primary !important;
+  color: #fff !important;
+}
 .btn-custom-accent {
   background-color: theme.$accent !important;
+  color: #fff !important;
 }
+/*END BUTTONS*/
 
+/*START SIDENAV O DRAWER*/
+.is-active {
+  background-color: theme.$accent !important;
+}
 .mat-divider {
   border-top-color: #ffffff !important;
 }
@@ -46,3 +57,74 @@ body {
     fill: theme.$font-primary !important;
   }
 }
+
+.mat-content.mat-content-hide-toggle {
+  margin-right: 0 !important;
+}
+/*END SIDENAV O DRAWER*/
+
+/*START CARDS*/
+.card-outlined {
+  margin-top: 20px;
+  background-color: #fff !important;
+}
+
+.title-overlap {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background-color: #fff;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+}
+/*END CARDS*
+
+/* START TABLE */
+.custom-container {
+  position: relative;
+  margin: 10px;
+}
+
+.custom-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 300px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-sort-header-content {
+  font-weight: bold !important;
+}
+
+.mat-mdc-header-cell {
+  font-weight: bold !important;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+/* END TABLE */
