@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
     //   console.log(data);
     // });
     let params = this.route.snapshot.params;
-    console.log(this.route.snapshot.params);
+    console.log(params);
     this.getMenus(params['id']);
   }
 

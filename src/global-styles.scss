@@ -32,6 +32,12 @@ body {
   font-family: AlfaSlabOne, serif;
 }
 
+/*START INPUTS*/
+.dense-2 {
+  @include mat.all-component-densities(-2);
+}
+/*END INPUTS*/
+
 /*START BUTTONS*/
 .btn-custom-primary {
   background-color: theme.$primary !important;
@@ -60,6 +66,10 @@ body {
 
 .mat-content.mat-content-hide-toggle {
   margin-right: 0 !important;
+}
+
+.mat-mdc-nav-list .mat-mdc-list-item {
+  border-radius: 0 !important;
 }
 /*END SIDENAV O DRAWER*/
 

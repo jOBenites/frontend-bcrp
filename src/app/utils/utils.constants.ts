@@ -1,0 +1,1 @@
+export const showToastDuration = 3000;

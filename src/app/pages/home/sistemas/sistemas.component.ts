@@ -1,123 +1,104 @@
 import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
 import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule, SortDirection} from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
-import {DatePipe} from '@angular/common';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { Sistema } from '../../../models/sistema.model';
+import { SistemaService } from '../../../services/sistema.service';
+import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 // import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-listado-sistema',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, DatePipe],
-  providers: [
-     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
-  ],
+  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule,    MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, DatePipe, DialogConfirmationComponent],
   templateUrl: './sistemas.component.html',
   styleUrl: './sistemas.component.scss'
 })
 export class SistemasComponent implements AfterViewInit {
-
-private _httpClient = inject(HttpClient);
-
-displayedColumns: string[] = [ 'number', 'state', 'title', 'created'];
-exampleDatabase: ExampleHttpDatabase | undefined;
-data: GithubIssue[] = [];
-
-resultsLength = 0;
-isLoadingResults = true;
-isRateLimitReached = false;
+private _snackBar = inject(MatSnackBar);
+readonly dialog = inject(MatDialog);
+displayedColumns: string[] = [ 'codigo', 'nombre', 'version', 'action'];
+dataSource: Sistema[];
 
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
 
 public formGroup: FormGroup;
-  constructor(readonly fb: FormBuilder, readonly router: Router){
-    this.formGroup = this.fb.group({
-      codigo: ['', Validators.required],
-      sistema: ['', Validators.required],
-      version: ['', Validators.required]
+constructor(readonly fb: FormBuilder, 
+  readonly router: Router,
+  readonly sistemaService: SistemaService){
+  this.formGroup = this.fb.group({
+    codigo: [''],
+    sistema: [''],
+    version: ['']
+  });
+  this.dataSource = [];
+}
+
+  ngAfterViewInit() {
+    this.getSistemas();
+  }
+
+  getSistemas(){
+    this.sistemaService.readPaginate()
+    .subscribe({
+      next: res =>{
+        console.log(res);
+        this.dataSource = res.content;
+      },
+      error: err => {
+        console.log(err);
+      }
     });
   }
 
-  ngAfterViewInit() {
-    this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.exampleDatabase!.getRepoIssues(
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-          ).pipe(catchError(() => of(null)));
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = data === null;
-
-          if (data === null) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.resultsLength = data.total_count;
-          return data.items;
-        }),
-      )
-      .subscribe(data => (this.data = data));
-  }
-
-  clean(): void {
+  clean() {
     this.formGroup.reset();
   }
 
-  search(): void {
+  search() {}
 
+  edit(data: Sistema) {
+    this.router.navigate(['home/sistemas/formulario', data]);
   }
 
-}
+  delete(data: any) {
+    console.log(data);
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '250px'
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.sistemaService.delete(data.idSistema)
+        .subscribe({
+          next: res => {
+          console.log(res);
+          this.openSnackBar(res.message, 'undo');
+          this.getSistemas();
+        },
+        error: err => {
+          let errors = err.error;
+          console.log(errors);
+          this.openSnackBar(JSON.stringify(errors), 'undo');
+        }
+      });
+    });
+  }
 
-export interface GithubApi {
-  items: GithubIssue[];
-  total_count: number;
-}
-
-export interface GithubIssue {
-  created_at: string;
-  number: string;
-  state: string;
-  title: string;
-}
-
-/** An example database that the data source uses to retrieve data for the table. */
-export class ExampleHttpDatabase {
-  constructor(private _httpClient: HttpClient) {}
-
-  getRepoIssues(sort: string, order: SortDirection, page: number): Observable<GithubApi> {
-    const href = 'https://api.github.com/search/issues';
-    const requestUrl = `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${
-      page + 1
-    }`;
-
-    return this._httpClient.get<GithubApi>(requestUrl);
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 
 }
