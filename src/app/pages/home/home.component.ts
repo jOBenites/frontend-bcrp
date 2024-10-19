@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -8,8 +8,11 @@ import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansi
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { PipesModule } from '../../pipes/pipes.module';
 import { Menu } from '../../models/menu.model';
+import { SpinnerObserverService } from '../../services/spinner-observer.service';
+import { Subscription } from 'rxjs';
 
 enum DrawerMode {
   Side = "side",
@@ -29,11 +32,12 @@ enum DrawerMode {
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
+    NgxSpinnerModule,
     PipesModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public titlePage: string;
   public showSpinner = false;
 
@@ -45,10 +49,15 @@ export class HomeComponent implements OnInit {
   _allExpandState = false;
   static readonly ROUTE_DATA_BREADCRUMB = 'title';
   readonly home = {icon: 'icon ion-ios-home', url: 'home'};
-  // state$: Observable<object>;
   dataMenus: Array<Menu>;
   menus: Menu | undefined;
-  constructor(readonly router: Router, readonly route: ActivatedRoute) {
+  private spinnerSubscription: Subscription;
+
+  constructor(
+      readonly router: Router, 
+      readonly route: ActivatedRoute,
+      readonly spinnerObserver: SpinnerObserverService,
+      readonly spinner: NgxSpinnerService) {
       this.titlePage = "home component";
       this.dataMenus = [];
       this.menus = {idSistema: 0, opciones: []};
@@ -56,12 +65,17 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.state$.subscribe((data) => {
-    //   console.log(data);
-    // });
     let params = this.route.snapshot.params;
     console.log(params);
     this.getMenus(params['id']);
+
+    this.spinnerSubscription = this.spinnerObserver.getStateSpinner().subscribe((value: boolean) => {
+      value ? this.spinner.show() : this.spinner.hide();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.spinnerSubscription.unsubscribe();
   }
 
   getMenus(id: number){

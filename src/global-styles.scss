@@ -28,6 +28,16 @@ body {
   height: 100%;
 }
 
+// @include mat.core();
+// @include mat.color-variants-backwards-compatibility(theme.$light-theme);
+// $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-serif',
+//     $body-2: mat.m2-define-typography-level(14px, 24px, 500),
+//     $body-1: mat.m2-define-typography-level(14px, 20px, 400),
+//     $button: mat.m2-define-typography-level(14px, 36px, 500, $letter-spacing: 0.014rem),
+//   );
+
+// @include mat.typography-hierarchy($typography-config);
+
 .header-title {
   font-family: AlfaSlabOne, serif;
 }
@@ -138,3 +148,31 @@ table {
   border-color: currentColor;
 }
 /* END TABLE */
+/*START SNACKBAR*/
+.warning-snackbar {
+  background: theme.$warn !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+    font-weight: bold;
+  }
+}
+
+.error-snackbar {
+  background: theme.$danger !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+    font-weight: bold;
+  }
+}
+
+.success-snackbar {
+  background: theme.$accent !important;
+
+  .mat-simple-snackbar-action {
+    color: white !important;
+    font-weight: bold;
+  }
+}
+/*END SNACKBAR*/

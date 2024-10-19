@@ -9,6 +9,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { JwtModule } from "@auth0/angular-jwt";
 import { SessionService } from './services/session.service';
 import { authInterceptor } from './services/auth.interceptor';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 export function tokenGetter() {
   return new SessionService().getToken();
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'} },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} },
     importProvidersFrom(
         JwtModule.forRoot({
             config: {

@@ -20,8 +20,10 @@ export class SistemaService {
   public readAll(): Observable<Sistema[]> {
     return this.http.get<Sistema[]>(this.baseUrl + '/sistemas');
   }
-  public readPaginate(): Observable<DataSourceSistema> {
-    return this.http.get<DataSourceSistema>(this.baseUrl + '/sistemas');
+  public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string,
+    codigo: string, nombre: string, version: string
+  ): Observable<DataSourceSistema> {
+    return this.http.get<DataSourceSistema>(this.baseUrl + `/sistemas?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&codigo=${codigo}&nombre=${nombre}&version=${version}`);
   }
   public update(data: FormData): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/sistema', data);

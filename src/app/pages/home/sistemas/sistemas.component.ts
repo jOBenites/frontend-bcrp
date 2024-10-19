@@ -6,12 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule, SortDirection} from '@angular/material/sort';
+import { catchError, map, merge, of, startWith, switchMap } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -28,10 +28,11 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
   styleUrl: './sistemas.component.scss'
 })
 export class SistemasComponent implements AfterViewInit {
-private _snackBar = inject(MatSnackBar);
+readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
 displayedColumns: string[] = [ 'codigo', 'nombre', 'version', 'action'];
-dataSource: Sistema[];
+dataSource: Sistema[] = [];
+resultsLength = 0;
 
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
@@ -45,31 +46,51 @@ constructor(readonly fb: FormBuilder,
     sistema: [''],
     version: ['']
   });
-  this.dataSource = [];
 }
-
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.getSistemas();
   }
 
+
   getSistemas(){
-    this.sistemaService.readPaginate()
-    .subscribe({
-      next: res =>{
-        console.log(res);
-        this.dataSource = res.content;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+    // If the user changes the sort order, reset back to the first page.
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.sistemaService.readPaginate(
+            this.paginator.pageIndex,  
+            this.paginator.pageSize, 
+            this.sort.active,
+            this.sort.direction,
+            this.formGroup.get('codigo')?.value,
+            this.formGroup.get('sistema')?.value,
+            this.formGroup.get('version')?.value)
+          .pipe(catchError(() => of(null)));
+        }),
+        map(data => {
+          if (data === null) {
+            return [];
+          }
+
+          this.resultsLength = data.totalElements;
+          return data.content;
+        }),
+      )
+      .subscribe(data => (this.dataSource = data));
   }
 
   clean() {
-    this.formGroup.reset();
+    this.formGroup.get('codigo')?.setValue('');
+    this.formGroup.get('sistema')?.setValue('');
+    this.formGroup.get('version')?.setValue('');
   }
 
-  search() {}
+  search() {
+    this.getSistemas();
+  }
 
   edit(data: Sistema) {
     this.router.navigate(['home/sistemas/formulario', data]);
@@ -85,20 +106,23 @@ constructor(readonly fb: FormBuilder,
         .subscribe({
           next: res => {
           console.log(res);
-          this.openSnackBar(res.message, 'undo');
+          this.openSnackBar(res.message, '✓', 'success-snackbar');
           this.getSistemas();
         },
         error: err => {
-          let errors = err.error;
-          console.log(errors);
-          this.openSnackBar(JSON.stringify(errors), 'undo');
+          console.log(err);
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
         }
       });
     });
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
+  openSnackBar(message: string, action: string, style: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: [style]
+    });
   }
 
 }

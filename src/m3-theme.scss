@@ -146,6 +146,9 @@ $light-theme: mat.define-theme((
   ),
   typography: (
     use-system-variables: true,
+    // bold-weight: 300,
+    // medium-weight: 200,
+    // regular-weight: 100,
   ),
   // density: (scale: -2)
 ));

@@ -11,7 +11,7 @@
     <img [src]="('logo' | loadPicture: 'svg')" alt="bcrp" width="50px" height="50%">
     <h1 class="title-logo toggle_menu_desktop">Banco Central de Reserva del Perú</h1>
    </div>
-    <img mat-card-avatar [src]="('avatar' | loadPicture: 'png')" alt="avatar" height="60%"
+    <img mat-card-avatar style="cursor: pointer;" [src]="('avatar' | loadPicture: 'png')" alt="avatar" height="60%"
     [matMenuTriggerFor]="menu">
     <!-- <button id="avatar" class="ml-auto" mat-mini-fab [matMenuTriggerFor]="menu">
       <mat-icon md-list-icon>account_circle</mat-icon>
@@ -64,6 +64,11 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+          <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="cube-transition"     [fullScreen]="true"
+          [disableAnimation]="false">
+            <p style="color: white"> Cargando... </p>
+          </ngx-spinner>
 
           <router-outlet></router-outlet>
 

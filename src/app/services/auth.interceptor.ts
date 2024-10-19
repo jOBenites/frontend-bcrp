@@ -20,12 +20,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   console.log('isAuthenticated', authSvc.isAuthenticated());
   if (authSvc.isAuthenticated()) {
     spinnerSvc.showSpinner();
-    console.log('show Spinner');
     return next(req).pipe(
         finalize(() => {
-        console.log('hide Spinner');
-        spinnerSvc.hideSpinner();
-      }) );
+          spinnerSvc.hideSpinner();
+        }) );
   } else {
     console.log('enviar refresh_token');
     const authRequest = addAuthorizationHeader(req);

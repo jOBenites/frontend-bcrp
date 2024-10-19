@@ -86,12 +86,12 @@ export class FormSistemaComponent {
     .subscribe({
       next: res => {
         console.log(res);
-        this.openSnackBar(res.message, 'undo');
+        this.openSnackBar(res.message, '✓', 'success-snackbar');
         this.location.back();
       },
       error: err => {
         console.log(err);
-        this.openSnackBar(err.message, 'undo');
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
       }
     });
   }
@@ -101,12 +101,12 @@ export class FormSistemaComponent {
     .subscribe({
       next: res => {
         console.log(res);
-        this.openSnackBar(res.message, 'undo');
+        this.openSnackBar(res.message, '✓', 'success-snackbar');
         this.location.back();
       },
       error: err => {
         console.log(err);
-        this.openSnackBar(err.message, 'undo');
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
       }
     });
   }
@@ -129,8 +129,12 @@ export class FormSistemaComponent {
     }
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
+  openSnackBar(message: string, action: string, style: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: [style]
+    });
   }
 
 }
