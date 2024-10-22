@@ -46,13 +46,13 @@
             <mat-icon class="font-weight-bold text-option-drawer" md-list-icon>{{opcion.icono}}</mat-icon>
           </mat-panel-title>
           <mat-panel-description style="flex-basis: 100%">
-            <h6 *ngIf="sidenavWidth > 6" class="font-weight-bold text-option-drawer">{{opcion.titulo}}</h6>
+            <h4 *ngIf="sidenavWidth > 6" class="font-weight-bold text-option-drawer">{{opcion.titulo}}</h4>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-list *ngIf="opcion.subopciones.length > 0">
           <mat-list-item *ngFor="let subopcion of opcion.subopciones" [routerLink]="[subopcion.url]" [routerLinkActive]="'is-active'">
             <mat-icon matListItemIcon>fiber_manual_record</mat-icon>
-            <div *ngIf="sidenavWidth > 6"  class="text-center" matListItemTitle>{{subopcion.titulo}}</div>
+            <div *ngIf="sidenavWidth > 6" class="text-center" matListItemTitle>{{subopcion.titulo}}</div>
           </mat-list-item>
         </mat-list>
       </mat-expansion-panel>

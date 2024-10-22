@@ -5,6 +5,7 @@ import { Sistema } from '../models/sistema.model';
 import { DataSourceSistema } from '../interfaces/datasource-sistema.interface';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../models/api-response.interface';
+import { Persona } from '../interfaces/persona.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,9 @@ export class SistemaService {
   public delete(id: number): Observable<ApiResponse> {
     return this.http.delete<ApiResponse>(this.baseUrl + '/sistema/' + id);
   } 
+
+  public obtenerResponsables(): Observable<Persona[]> {
+    return this.http.get<Persona[]>(this.baseUrl + '/sistema/usuarios');
+  }
   
 }

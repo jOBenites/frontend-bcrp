@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,30 +7,30 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Location } from "@angular/common";
+import { Location, NgFor } from "@angular/common";
 import { SistemaService } from '../../../../services/sistema.service';
-import { Sistema } from '../../../../models/sistema.model';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { Persona } from '../../../../interfaces/persona.interface';
 
 @Component({
   selector: 'app-form-sistema',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule, MatButtonModule, MatIconModule, NgFor],
   templateUrl: './form-sistema.component.html',
   styleUrl: './form-sistema.component.scss'
 })
-export class FormSistemaComponent {
+export class FormSistemaComponent implements AfterViewInit {
   private _snackBar = inject(MatSnackBar);
   public formGroup: FormGroup;
   titulo: string;
   buttonTitle: string;
+  responsables: Persona[] = [];
   constructor(readonly fb: FormBuilder, 
     readonly location: Location,
     readonly route: ActivatedRoute,
     readonly sistemaService: SistemaService){
       let params = this.route.snapshot.params;
-
       if(params['idSistema'] != null){
         this.titulo = 'Editar Sistema' 
         this.buttonTitle = 'Actualizar';
@@ -41,27 +41,48 @@ export class FormSistemaComponent {
 
       this.formGroup = this.fb.group({
         idSistema: [params['idSistema'] != null ? params['idSistema'] : 0],
-        codigo: [params['codigo'] != null ? params['codigo'] : ''],
+        // codigo: [params['codigo'] != null ? params['codigo'] : ''],
         sistema: [params['nombre'] != null ? params['nombre'] : '', Validators.required],
         version: [params['version'] != null ? params['version'] : '', Validators.required],
         url: [params['url'] != null ? params['url'] : '', Validators.required],
         logoHead: [params['logoHead'] != null ? params['logoHead'] : ''],
-        logoMain: [params['logoMain'] != null ? params['logoMain'] : '']
+        logoMain: [params['logoMain'] != null ? params['logoMain'] : ''],
+        usuarioResponsable: [params['usuarioResponsable'] != null ? params['usuarioResponsable'] : ''],
+        usuarioResponsableAlt: [params['usuarioResponsableAlt'] != null ? params['usuarioResponsableAlt'] : '']
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.getResponsables();
   }
 
   // cancel() {
   //   this.location.back();
   // }
 
+  getResponsables(){
+    this.sistemaService.obtenerResponsables()
+    .subscribe({
+      next: res => {
+        this.responsables = res;
+      },
+      error: err => {
+        console.log(err);
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
+      }
+    })
+  }
+
   save() {
     if(this.formGroup.valid) {
 
       let formData = new FormData();
-      formData.append("codigo", this.formGroup.get('codigo')?.value);
+      // formData.append("codigo", this.formGroup.get('codigo')?.value);
       formData.append("nombre", this.formGroup.get('sistema')?.value);
       formData.append("version", this.formGroup.get('version')?.value);
       formData.append("url", this.formGroup.get('url')?.value);
+      formData.append("usuarioResponsable", this.formGroup.get('usuarioResponsable')?.value);
+      formData.append("usuarioResponsableAlt", this.formGroup.get('usuarioResponsableAlt')?.value);
 
       let fileLogoHead = this.formGroup.get('logoHead')?.value;
       if (fileLogoHead instanceof File) {
@@ -75,7 +96,7 @@ export class FormSistemaComponent {
       if(this.formGroup.get('idSistema')?.value == 0){
         this.insert(formData);
       } else {
-        formData.append("id", this.formGroup.get('idSistema')?.value);
+        formData.append("idSistema", this.formGroup.get('idSistema')?.value);
         this.update(formData);
       }
     }

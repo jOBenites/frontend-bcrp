@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { AuthResponse } from '../models/auth.interface';
 import { Usuario } from '../models/usuario.model';
 import { environment } from '../../environments/environment';
@@ -20,9 +20,7 @@ export class AuthService {
     readonly sessionService: SessionService
   ) { }
 
-  // public isAuthenticated(): boolean{
-  //   return this.sessionService.isAuthenticated();
-  // }
+
   isAuthenticated(): boolean {
     return !this.jwtHelper.isTokenExpired();
   }
@@ -31,22 +29,37 @@ export class AuthService {
     return this.http.post<AuthResponse>(this.baseUrl + '/login', data, this.CONTEXT);
   }
 
-  
-  // refreshToken(): Observable<AuthResponse | null> {
-  //     const refresh_token = sessionStorage.getItem('refresh_token');
-  //     if (!refresh_token) {
-  //       return of();
-  //     }
-  //     return this.http.post<AuthResponse>(
-  //       `${this.baseUrl}/token/refresh`, {refresh_token}, this.CONTEXT)
-  //       .pipe(
-  //         catchError(() => of()),
-  //         tap(data => {
-  //           const loginSuccessData = data as LoginSuccess;
-  //           this.storeTokens(loginSuccessData);
-  //           this.scheduleTokenRefresh(loginSuccessData.token);
-  //         })
-  //       );
-  //   }
+  public logout(){
+    const refresh_token = this.sessionService.getRefreshToken();
+    if (!refresh_token) {
+      return of();
+    }
+
+    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/logout?refreshToken=${refresh_token}`, {}, this.CONTEXT).pipe(
+       catchError(() => of()),
+       tap(data => this.sessionService.clearTokens())
+    );
+  }
+
+  refreshToken(): Observable<AuthResponse | null> {
+    const refresh_token = this.sessionService.getRefreshToken();
+    if (!refresh_token) {
+      return of();
+    }
+    return this.http.post<AuthResponse>(
+      `${this.baseUrl}/oauth/refreshToken`, {refresh_token}, this.CONTEXT)
+      .pipe(
+        catchError(() => of()),
+        tap(data => {
+          const loginSuccessData = data as AuthResponse;
+          this.storeTokens(loginSuccessData);
+        })
+      );
+  }
+
+  public storeTokens(data: AuthResponse) {
+    this.sessionService.setToken(data.access_token);
+    this.sessionService.setRefreshToken(data.refreshToken);
+  }
 
 }

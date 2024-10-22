@@ -30,7 +30,7 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 export class SistemasComponent implements AfterViewInit {
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
-displayedColumns: string[] = [ 'codigo', 'nombre', 'version', 'action'];
+displayedColumns: string[] = ['codigo', 'nombre', 'version', 'action'];
 dataSource: Sistema[] = [];
 resultsLength = 0;
 
@@ -42,7 +42,7 @@ constructor(readonly fb: FormBuilder,
   readonly router: Router,
   readonly sistemaService: SistemaService){
   this.formGroup = this.fb.group({
-    codigo: [''],
+    // codigo: [''],
     sistema: [''],
     version: ['']
   });
@@ -102,18 +102,20 @@ constructor(readonly fb: FormBuilder,
       width: '250px'
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.sistemaService.delete(data.idSistema)
-        .subscribe({
-          next: res => {
-          console.log(res);
-          this.openSnackBar(res.message, '✓', 'success-snackbar');
-          this.getSistemas();
-        },
-        error: err => {
-          console.log(err);
-          this.openSnackBar(err.message, '✗', 'error-snackbar');
-        }
-      });
+      if(result) {
+        this.sistemaService.delete(data.idSistema)
+          .subscribe({
+            next: res => {
+            console.log(res);
+            this.openSnackBar(res.message, '✓', 'success-snackbar');
+            this.getSistemas();
+          },
+          error: err => {
+            console.log(err);
+            this.openSnackBar(err.message, '✗', 'error-snackbar');
+          }
+        });
+      }
     });
   }
 

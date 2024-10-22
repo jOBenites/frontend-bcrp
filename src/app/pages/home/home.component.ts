@@ -12,7 +12,8 @@ import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { PipesModule } from '../../pipes/pipes.module';
 import { Menu } from '../../models/menu.model';
 import { SpinnerObserverService } from '../../services/spinner-observer.service';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 enum DrawerMode {
   Side = "side",
@@ -57,7 +58,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       readonly router: Router, 
       readonly route: ActivatedRoute,
       readonly spinnerObserver: SpinnerObserverService,
-      readonly spinner: NgxSpinnerService) {
+      readonly spinner: NgxSpinnerService,
+      readonly authService: AuthService) {
       this.titlePage = "home component";
       this.dataMenus = [];
       this.menus = {idSistema: 0, opciones: []};
@@ -186,8 +188,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public closeSession(): void {
-    // localStorage.removeItem('user');
-    this.router.navigateByUrl('login');
+    this.authService.logout()
+    .subscribe({
+      next: res => {
+        console.log(res);
+        this.router.navigateByUrl('login');
+      },
+      error: err => {
+        console.log(err);
+        this.router.navigateByUrl('login');
+      }
+    });
   }
 
   public navigateTo(view: string) {

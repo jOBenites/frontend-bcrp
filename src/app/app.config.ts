@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'} },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000} },
     importProvidersFrom(
         JwtModule.forRoot({
             config: {

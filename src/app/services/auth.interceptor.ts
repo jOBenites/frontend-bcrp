@@ -2,37 +2,35 @@ import {HttpContextToken, HttpInterceptorFn, HttpRequest} from '@angular/common/
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
 import { SpinnerObserverService } from './spinner-observer.service';
-import { finalize } from 'rxjs';
-// import {switchMap} from "rxjs/operators";
+import { finalize, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authSvc = inject(AuthService);
   const spinnerSvc = inject(SpinnerObserverService);
-  // whenever this HttpContextToken is attached to a request 
-  // as we did to login request earlier
-  // it means the user does not need to be authenticated 
-  // so we don't attach authorization header
-  console.log('IS_PUBLIC', req.context.get(IS_PUBLIC));
 
   if (req.context.get(IS_PUBLIC)) {
     return next(req);
   }
-  console.log('isAuthenticated', authSvc.isAuthenticated());
+
   if (authSvc.isAuthenticated()) {
     spinnerSvc.showSpinner();
-    return next(req).pipe(
+    const authRequest = addAuthorizationHeader(req);
+    return next(authRequest).pipe(
         finalize(() => {
           spinnerSvc.hideSpinner();
         }) );
   } else {
-    console.log('enviar refresh_token');
-    const authRequest = addAuthorizationHeader(req);
-    return next(authRequest);
+    return authSvc.refreshToken().pipe(
+      switchMap(() => {
+        const authRequest = addAuthorizationHeader(req);
+        return next(authRequest);
+      })
+    );
   }
 
 };
 const addAuthorizationHeader = (req: HttpRequest<any>) => {
-  const token = sessionStorage.getItem('refresh_token');
+  const token = sessionStorage.getItem('JWT');
   return req.clone({
     headers: req.headers.set('Authorization', `Bearer ${token}`)
   });

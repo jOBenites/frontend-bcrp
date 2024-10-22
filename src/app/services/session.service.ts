@@ -25,6 +25,9 @@ export class SessionService {
     getToken(): string | null {
         return sessionStorage.getItem('JWT');
     }
+    getRefreshToken(): string | null {
+        return sessionStorage.getItem('refresh_token');
+    }
 
     getUser(): Autenticacion | null {
         let dataSession = this.getToken();
@@ -35,7 +38,8 @@ export class SessionService {
         return null;
     }
 
-    clearToken() {
-        return sessionStorage.removeItem('JWT');
+    clearTokens() {
+        sessionStorage.removeItem('JWT');
+        sessionStorage.removeItem('refresh_token');
     }
 }

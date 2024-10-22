@@ -28,18 +28,17 @@ body {
   height: 100%;
 }
 
-// @include mat.core();
-// @include mat.color-variants-backwards-compatibility(theme.$light-theme);
-// $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-serif',
-//     $body-2: mat.m2-define-typography-level(14px, 24px, 500),
-//     $body-1: mat.m2-define-typography-level(14px, 20px, 400),
-//     $button: mat.m2-define-typography-level(14px, 36px, 500, $letter-spacing: 0.014rem),
-//   );
-
-// @include mat.typography-hierarchy($typography-config);
+@include mat.core();
+@include mat.color-variants-backwards-compatibility(theme.$light-theme);
+$typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-serif',
+  $body-2: mat.m2-define-typography-level(14px, 24px, 500),
+  $body-1: mat.m2-define-typography-level(14px, 20px, 400),
+  $button: mat.m2-define-typography-level(14px, 36px, 500, $letter-spacing: 0.014rem),
+);
+@include mat.typography-hierarchy($typography-config);
 
 .header-title {
-  font-family: AlfaSlabOne, serif;
+  font-family: AlfaSlabOne, serif !important;
 }
 
 /*START INPUTS*/
@@ -51,11 +50,15 @@ body {
 /*START BUTTONS*/
 .btn-custom-primary {
   background-color: theme.$primary !important;
-  color: #fff !important;
+  color: theme.$font-primary !important;
 }
 .btn-custom-accent {
   background-color: theme.$accent !important;
-  color: #fff !important;
+  color: theme.$font-primary !important;
+}
+.btn-custom-danger {
+  background-color: theme.$font-primary !important;
+  color: theme.$danger !important;
 }
 /*END BUTTONS*/
 
@@ -149,30 +152,24 @@ table {
 }
 /* END TABLE */
 /*START SNACKBAR*/
-.warning-snackbar {
-  background: theme.$warn !important;
-
-  .mat-simple-snackbar-action {
-    color: white !important;
-    font-weight: bold;
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #73D4D7;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snack-bar-button-color: #fff;
   }
-}
-
-.error-snackbar {
-  background: theme.$danger !important;
-
-  .mat-simple-snackbar-action {
-    color: white !important;
-    font-weight: bold;
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #a80710;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snack-bar-button-color: #fff;
   }
-}
-
-.success-snackbar {
-  background: theme.$accent !important;
-
-  .mat-simple-snackbar-action {
-    color: white !important;
-    font-weight: bold;
+  &.warning-snackbar {
+    --mdc-snackbar-container-color: #FF5722;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snack-bar-button-color: #fff;
   }
 }
 /*END SNACKBAR*/
