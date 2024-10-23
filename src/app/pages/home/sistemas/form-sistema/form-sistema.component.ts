@@ -9,9 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgFor } from "@angular/common";
 import { SistemaService } from '../../../../services/sistema.service';
-import { ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute} from '@angular/router';
 import { Persona } from '../../../../interfaces/persona.interface';
+import { Estado } from '../../../../interfaces/estado.interface';
 
 @Component({
   selector: 'app-form-sistema',
@@ -26,11 +26,13 @@ export class FormSistemaComponent implements AfterViewInit {
   titulo: string;
   buttonTitle: string;
   responsables: Persona[] = [];
+  eclasistidad: Estado[] = [];
   constructor(readonly fb: FormBuilder, 
     readonly location: Location,
     readonly route: ActivatedRoute,
     readonly sistemaService: SistemaService){
       let params = this.route.snapshot.params;
+      console.log(params);
       if(params['idSistema'] != null){
         this.titulo = 'Editar Sistema' 
         this.buttonTitle = 'Actualizar';
@@ -45,26 +47,40 @@ export class FormSistemaComponent implements AfterViewInit {
         sistema: [params['nombre'] != null ? params['nombre'] : '', Validators.required],
         version: [params['version'] != null ? params['version'] : '', Validators.required],
         url: [params['url'] != null ? params['url'] : '', Validators.required],
+        urlExterno: [params['urlExterno'] != null ? params['urlExterno'] : '', Validators.required],
         logoHead: [params['logoHead'] != null ? params['logoHead'] : ''],
         logoMain: [params['logoMain'] != null ? params['logoMain'] : ''],
-        usuarioResponsable: [params['usuarioResponsable'] != null ? params['usuarioResponsable'] : ''],
-        usuarioResponsableAlt: [params['usuarioResponsableAlt'] != null ? params['usuarioResponsableAlt'] : '']
+        usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : ''],
+        usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : ''],
+        idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : ''],
+        unidOrganizacional: [params['unidOrganizacional'] != null ? params['unidOrganizacional'] : '']
       });
   }
 
   ngAfterViewInit(): void {
     this.getResponsables();
+    this.getEclasistidad();
   }
-
-  // cancel() {
-  //   this.location.back();
-  // }
 
   getResponsables(){
     this.sistemaService.obtenerResponsables()
     .subscribe({
       next: res => {
         this.responsables = res;
+      },
+      error: err => {
+        console.log(err);
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
+      }
+    })
+  }
+
+  getEclasistidad(){
+    this.sistemaService.obtenerEstados()
+    .subscribe({
+      next: res => {
+        console.log(res);
+        this.eclasistidad = res;
       },
       error: err => {
         console.log(err);
@@ -81,8 +97,13 @@ export class FormSistemaComponent implements AfterViewInit {
       formData.append("nombre", this.formGroup.get('sistema')?.value);
       formData.append("version", this.formGroup.get('version')?.value);
       formData.append("url", this.formGroup.get('url')?.value);
-      formData.append("usuarioResponsable", this.formGroup.get('usuarioResponsable')?.value);
-      formData.append("usuarioResponsableAlt", this.formGroup.get('usuarioResponsableAlt')?.value);
+      formData.append("urlExterno", this.formGroup.get('urlExterno')?.value);
+      formData.append("idUsuarioResponsable", this.formGroup.get('usuarioResponsable')?.value);
+      formData.append("idUsuarioResponsableAlt", this.formGroup.get('usuarioResponsableAlt')?.value);
+      formData.append("usuarioResponsable", "usuarioResponsable");
+      formData.append("usuarioResponsableAlt", "usuarioResponsableAlt");
+      formData.append("idEstadoCritico", this.formGroup.get('idEstadoCritico')?.value);
+      formData.append("unidOrganizacional", this.formGroup.get('unidOrganizacional')?.value);
 
       let fileLogoHead = this.formGroup.get('logoHead')?.value;
       if (fileLogoHead instanceof File) {

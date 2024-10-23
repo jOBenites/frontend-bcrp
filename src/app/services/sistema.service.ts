@@ -6,6 +6,7 @@ import { DataSourceSistema } from '../interfaces/datasource-sistema.interface';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../models/api-response.interface';
 import { Persona } from '../interfaces/persona.interface';
+import { Estado } from '../interfaces/estado.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,9 @@ export class SistemaService {
 
   public obtenerResponsables(): Observable<Persona[]> {
     return this.http.get<Persona[]>(this.baseUrl + '/sistema/usuarios');
+  }
+  public obtenerEstados(): Observable<Estado[]> {
+    return this.http.get<Estado[]>(this.baseUrl + '/sistema/estados');
   }
   
 }

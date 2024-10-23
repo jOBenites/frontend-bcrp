@@ -14,6 +14,11 @@ import {MatSort, MatSortModule, SortDirection} from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import {DatePipe} from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { Entidad } from '../../../models/entidad.model';
+import { EntidadService } from '../../../services/entidad.service';
+import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 // import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
@@ -25,28 +30,28 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class EntidadesComponent implements AfterViewInit {
 
-private _httpClient = inject(HttpClient);
-
-displayedColumns: string[] = ['number', 'state', 'title', 'created'];
-exampleDatabase: ExampleHttpDatabase | undefined;
-data: GithubIssue[] = [];
-
+readonly _snackBar = inject(MatSnackBar);
+readonly dialog = inject(MatDialog);
+displayedColumns: string[] = ['nombre', 'sigla', 'codExterno', 'action'];
+dataSource: Entidad[] = [];
 resultsLength = 0;
-isLoadingResults = true;
-isRateLimitReached = false;
-
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
 
 public formGroup: FormGroup;
-  constructor(readonly fb: FormBuilder, readonly router: Router){
+  constructor(readonly fb: FormBuilder, 
+    readonly router: Router,
+    readonly entidadService: EntidadService){
     this.formGroup = this.fb.group({
-      nombre: ['', Validators.required]
+      nombre: ['']
     });
   }
 
   ngAfterViewInit() {
-    this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
+   this.getEntidad();
+  }
+
+  getEntidad(){
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -54,66 +59,67 @@ public formGroup: FormGroup;
       .pipe(
         startWith({}),
         switchMap(() => {
-          this.isLoadingResults = true;
-          return this.exampleDatabase!.getRepoIssues(
+          return this.entidadService.readPaginate(
+            this.paginator.pageIndex,  
+            this.paginator.pageSize, 
             this.sort.active,
             this.sort.direction,
-            this.paginator.pageIndex,
-          ).pipe(catchError(() => of(null)));
+            this.formGroup.get('nombre')?.value)
+          .pipe(catchError(() => of(null)));
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = data === null;
-
           if (data === null) {
             return [];
           }
 
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.resultsLength = data.total_count;
-          return data.items;
+          this.resultsLength = data.totalElements;
+          return data.content;
         }),
       )
-      .subscribe(data => (this.data = data));
+      .subscribe(data => (this.dataSource = data));
   }
 
   clean(): void {
-    this.formGroup.reset();
+    this.formGroup.get('nombre')?.setValue('');
   }
 
   search(): void {
+    this.getEntidad();
+  }
 
+  edit(data: Entidad) {
+    this.router.navigate(['home/entidades/nueva-entidad', data]);
+  }
+
+  delete(data: any) {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+      width: '250px',
+      data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result) {
+        this.entidadService.delete(data.idEntidad)
+          .subscribe({
+            next: res => {
+            console.log(res);
+            this.openSnackBar(res.message, '✓', 'success-snackbar');
+            this.getEntidad();
+          },
+          error: err => {
+            console.log(err);
+            this.openSnackBar(err.message, '✗', 'error-snackbar');
+          }
+        });
+      }
+    });
+  }
+
+  openSnackBar(message: string, action: string, style: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: [style]
+    });
   }
 
 }
-
-export interface GithubApi {
-  items: GithubIssue[];
-  total_count: number;
-}
-
-export interface GithubIssue {
-  created_at: string;
-  number: string;
-  state: string;
-  title: string;
-}
-
-/** An example database that the data source uses to retrieve data for the table. */
-export class ExampleHttpDatabase {
-  constructor(private _httpClient: HttpClient) {}
-
-  getRepoIssues(sort: string, order: SortDirection, page: number): Observable<GithubApi> {
-    const href = 'https://api.github.com/search/issues';
-    const requestUrl = `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${
-      page + 1
-    }`;
-
-    return this._httpClient.get<GithubApi>(requestUrl);
-  }
-
-}
-

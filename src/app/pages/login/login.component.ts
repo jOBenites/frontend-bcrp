@@ -37,6 +37,7 @@ export class LoginComponent {
 
     this.authService.signIn(usuario)
     .subscribe({ next: value => {
+      this.sessionService.setUser(value.nombre);
       this.sessionService.setToken(value.token);
       this.sessionService.setRefreshToken(value.refreshToken);
       this.router.navigate(['portal']);

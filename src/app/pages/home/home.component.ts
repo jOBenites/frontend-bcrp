@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -14,6 +14,7 @@ import { Menu } from '../../models/menu.model';
 import { SpinnerObserverService } from '../../services/spinner-observer.service';
 import { Subscription, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { SessionService } from '../../services/session.service';
 
 enum DrawerMode {
   Side = "side",
@@ -53,13 +54,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   dataMenus: Array<Menu>;
   menus: Menu | undefined;
   private spinnerSubscription: Subscription;
-
+  userName: string = '';
   constructor(
       readonly router: Router, 
       readonly route: ActivatedRoute,
       readonly spinnerObserver: SpinnerObserverService,
       readonly spinner: NgxSpinnerService,
-      readonly authService: AuthService) {
+      readonly authService: AuthService,
+      readonly sessionService: SessionService) {
       this.titlePage = "home component";
       this.dataMenus = [];
       this.menus = {idSistema: 0, opciones: []};
@@ -74,6 +76,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.spinnerSubscription = this.spinnerObserver.getStateSpinner().subscribe((value: boolean) => {
       value ? this.spinner.show() : this.spinner.hide();
     });
+
+    let user = this.sessionService.getUser();
+    if(user){
+      this.userName = user;
+    }
   }
 
   ngOnDestroy(): void {

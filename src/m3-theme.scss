@@ -136,21 +136,22 @@ $_rest: (
 $_primary: map.merge(map.get($_palettes, primary), $_rest);
 $_tertiary: map.merge(map.get($_palettes, tertiary), $_rest);
 
-@include mat.core();
 $light-theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: $_primary,
     tertiary: $_tertiary,
-    use-system-variables: true,
+    use-system-variables: true
   ),
   typography: (
-    use-system-variables: true,
-    // bold-weight: 300,
-    // medium-weight: 200,
-    // regular-weight: 100,
+    use-system-variables: true
   ),
-  // density: (scale: -2)
+));
+
+$compact-theme: mat.define-theme((
+  density: (
+    scale: -3
+  )
 ));
 
 // Create your Sass color vars (will be available in all the project)

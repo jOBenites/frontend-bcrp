@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 };
 const addAuthorizationHeader = (req: HttpRequest<any>) => {
-  const token = sessionStorage.getItem('JWT');
+  const token = localStorage.getItem('JWT');
   return req.clone({
     headers: req.headers.set('Authorization', `Bearer ${token}`)
   });

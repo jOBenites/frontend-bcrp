@@ -1,25 +1,34 @@
 <mat-card class="card-outlined" appearance="outlined">
   <mat-card-header>
-    <mat-card-title class="title-overlap">Nueva Entidad</mat-card-title>
+    <mat-card-title class="title-overlap">{{titulo}}</mat-card-title>
   </mat-card-header>
   <mat-card-content style="margin-top: 60px;">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-          <form [formGroup]="formGroup">
+          <form [formGroup]="formGroup" (submit)="save()">
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <mat-form-field class="w-100">
-                  <mat-label>RUC</mat-label>
-                  <input matInput name="ruc" formControlName="ruc" placeholder="Ingresa el RUC">
+                  <mat-label>Tipo documento</mat-label>
+                  <mat-select name="idDocumento" formControlName="idDocumento">
+                    <mat-option value="">--Seleccionar--</mat-option>
+                    <mat-option *ngFor="let item of documentos" [value]="item.idDocumentoIdentidad.toString()">{{item.tipoDocumentoIdentidad}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w-100">
+                  <mat-label>Número de documento</mat-label>
+                  <input matInput name="numeroDocumento" formControlName="numeroDocumento" placeholder="Ingrese el número de documento">
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <mat-form-field class="w-100">
-                  <mat-label>Nombre</mat-label>
-                  <input matInput name="nombre" formControlName="nombre" placeholder="Ingresa el Nombre">
+                  <mat-label>Entidad</mat-label>
+                  <input matInput name="nombre" formControlName="nombre" placeholder="Ingresa la entidad">
                 </mat-form-field>
               </div>
             </div>
@@ -35,7 +44,7 @@
               <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Código externo</mat-label>
-                  <input matInput name="codigo" formControlName="codigo"
+                  <input matInput name="codExterno" formControlName="codExterno"
                     placeholder="El código externo es autogenerado">
                 </mat-form-field>
               </div>
@@ -43,10 +52,10 @@
             <br>
             <div class="row justify-content-center">
               <div class="col-lg-6">
-                <button (click)="cancel()" mat-raised-button class="w-100">Cancelar</button>
+                <button type="button" [routerLink]="['../']" mat-raised-button class="w-100">Cancelar</button>
               </div>
               <div class="col-lg-6">
-                <button (click)="save()" mat-flat-button class="btn-custom-primary w-100">Registrar</button>
+                <button type="submit" (click)="save()" mat-flat-button class="btn-custom-primary w-100">{{buttonTitle}}</button>
               </div>
             </div>
           </form>

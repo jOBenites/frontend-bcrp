@@ -18,6 +18,7 @@
 html {
   @include mat.all-component-themes(theme.$light-theme);
   @include mat.system-level-colors(theme.$light-theme);
+  @include mat.form-field-density(theme.$compact-theme);
   // @include mat.system-level-typography(theme.$light-theme);
   height: 100%;
 }
@@ -42,9 +43,9 @@ $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-s
 }
 
 /*START INPUTS*/
-.dense-2 {
-  @include mat.all-component-densities(-2);
-}
+// .dense-2 {
+//   @include mat.all-component-densities(-2);
+// }
 /*END INPUTS*/
 
 /*START BUTTONS*/

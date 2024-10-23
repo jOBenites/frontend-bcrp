@@ -97,9 +97,9 @@ constructor(readonly fb: FormBuilder,
   }
 
   delete(data: any) {
-    console.log(data);
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
-      width: '250px'
+      width: '250px',
+      data: {title: 'Eliminar Sistema', message: '¿Está seguro de eliminar el sistema?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {

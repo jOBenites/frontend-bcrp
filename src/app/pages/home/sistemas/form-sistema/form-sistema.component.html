@@ -20,7 +20,7 @@
             </div> -->
             <div class="row">
               <div class="col-md-12">
-                <mat-form-field class="w-100 dense-2">
+                <mat-form-field class="w-100">
                   <mat-label>Sistema</mat-label>
                   <input matInput name="sistema" formControlName="sistema" placeholder="Ingresa el sistema">
                   @if (formGroup.get('sistema')?.invalid) {
@@ -31,7 +31,7 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <mat-form-field class="w-100 dense-2">
+                <mat-form-field class="w-100">
                   <mat-label>Versión</mat-label>
                   <input matInput name="version" formControlName="version" placeholder="Ingresa la versión">
                   @if (formGroup.get('version')?.invalid) {
@@ -42,7 +42,7 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <mat-form-field class="w-100 dense-2">
+                <mat-form-field class="w-100">
                   <mat-label>Url</mat-label>
                   <input matInput name="url" formControlName="url" placeholder="Ingresa la url">
                   @if (formGroup.get('url')?.invalid) {
@@ -52,28 +52,59 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="w-100 dense-2">
-                  <mat-label>Responsable</mat-label>
-                  <mat-select name="usuarioResponsable" formControlName="usuarioResponsable">
-                    <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of responsables" [value]="item.codigo">{{item.usuario}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="w-100 dense-2">
-                  <mat-label>Responsable alterno</mat-label>
-                  <mat-select name="usuarioResponsableAlt" formControlName="usuarioResponsableAlt">
-                    <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of responsables" [value]="item.codigo">{{item.usuario}}</mat-option>
-                  </mat-select>
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Url Externa</mat-label>
+                  <input matInput name="urlExterno" formControlName="urlExterno" placeholder="Ingresa la url externa">
+                  @if (formGroup.get('urlExterno')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
-                <mat-form-field class="w-100 dense-2" (click)="fileInputOne.click()">
+                <mat-form-field class="w-100">
+                  <mat-label>Responsable</mat-label>
+                  <mat-select name="usuarioResponsable" formControlName="usuarioResponsable">
+                    <mat-option value="">--Seleccionar--</mat-option>
+                    <mat-option *ngFor="let item of responsables" [value]="item.codigo.toString()">{{item.usuario}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w-100">
+                  <mat-label>Responsable alterno</mat-label>
+                  <mat-select name="usuarioResponsableAlt" formControlName="usuarioResponsableAlt">
+                    <mat-option value="">--Seleccionar--</mat-option>
+                    <mat-option *ngFor="let item of responsables" [value]="item.codigo.toString()">{{item.usuario}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Estado sistema</mat-label>
+                  <mat-select name="idEstadoCritico" formControlName="idEstadoCritico">
+                    <mat-option value="">--Seleccionar--</mat-option>
+                    <mat-option *ngFor="let item of eclasistidad" [value]="item.codigo.toString()">{{item.estCritico}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <mat-form-field class="w-100">
+                <mat-label>Unidad organizacional</mat-label>
+                <input matInput name="unidOrganizacional" formControlName="unidOrganizacional" placeholder="Ingresa la unidad organizacional">
+                @if (formGroup.get('unidOrganizacional')?.invalid) {
+                <mat-error>Campo requerido</mat-error>
+                }
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="w-100" (click)="fileInputOne.click()">
                   <mat-label>Logo cabecera</mat-label>
                   <input matInput type="text" placeholder="Seleccionar el archivo" formControlName="logoHead"
                     [value]="fileInputOne.files![0]?.name">
@@ -83,7 +114,7 @@
                   accept=".jpg,.png,.gif,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx" style="display:none;" />
               </div>
               <div class="col-md-6">
-                <mat-form-field class="w-100 dense-2" (click)="fileInputTwo.click()">
+                <mat-form-field class="w-100" (click)="fileInputTwo.click()">
                   <mat-label>Logo principal</mat-label>
                   <input matInput type="text" placeholder="Seleccionar el archivo" formControlName="logoMain"
                     [value]="fileInputTwo.files![0]?.name">

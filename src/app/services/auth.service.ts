@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { SessionService } from './session.service';
 import { IS_PUBLIC } from './auth.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService {
   private readonly jwtHelper = inject(JwtHelperService);
   private readonly CONTEXT = {context: new HttpContext().set(IS_PUBLIC, true)};
   constructor(readonly http: HttpClient,
-    readonly sessionService: SessionService
+    readonly sessionService: SessionService,
+    readonly router: Router
   ) { }
 
 
@@ -49,7 +51,11 @@ export class AuthService {
     return this.http.post<AuthResponse>(
       `${this.baseUrl}/oauth/refreshToken`, {refresh_token}, this.CONTEXT)
       .pipe(
-        catchError(() => of()),
+        catchError(() => {
+          this.sessionService.clearTokens();
+          this.router.navigateByUrl('/login');
+          return of()
+        }),
         tap(data => {
           const loginSuccessData = data as AuthResponse;
           this.storeTokens(loginSuccessData);

@@ -14,22 +14,27 @@ export class SessionService {
         return !helper.isTokenExpired();
     }
 
+    setUser(value: string) {
+        localStorage.setItem('user', value);
+    }
+    getUser(): string | null {
+        return localStorage.getItem('user');
+    }
     setToken(value: any) {
-        sessionStorage.setItem('JWT', value);
+        localStorage.setItem('JWT', value);
     }
     setRefreshToken(value: any) {
-        sessionStorage.setItem('refresh_token', value);
+        localStorage.setItem('refresh_token', value);
     }
-
 
     getToken(): string | null {
-        return sessionStorage.getItem('JWT');
+        return localStorage.getItem('JWT');
     }
     getRefreshToken(): string | null {
-        return sessionStorage.getItem('refresh_token');
+        return localStorage.getItem('refresh_token');
     }
 
-    getUser(): Autenticacion | null {
+    getTokenDecoder(): Autenticacion | null {
         let dataSession = this.getToken();
         if(dataSession){
             let auth: Autenticacion | null = helper.decodeToken(dataSession);
@@ -39,7 +44,7 @@ export class SessionService {
     }
 
     clearTokens() {
-        sessionStorage.removeItem('JWT');
-        sessionStorage.removeItem('refresh_token');
+        localStorage.removeItem('JWT');
+        localStorage.removeItem('refresh_token');
     }
 }
