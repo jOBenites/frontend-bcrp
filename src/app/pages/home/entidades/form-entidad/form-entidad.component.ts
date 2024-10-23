@@ -54,6 +54,7 @@ export class FormEntidadComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTiposDocumentos();
+    this.formGroup.controls['codExterno'].disable();
   }
 
   getTiposDocumentos(){

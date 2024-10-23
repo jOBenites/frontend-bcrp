@@ -4,27 +4,27 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
+import { catchError, map, merge, of, startWith, switchMap } from 'rxjs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule, SortDirection} from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
-import {DatePipe} from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Entidad } from '../../../models/entidad.model';
 import { EntidadService } from '../../../services/entidad.service';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
+import { Documento } from '../../../interfaces/documento.interface';
 // import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-entidades',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, DatePipe],
+  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, NgFor],
   templateUrl: './entidades.component.html',
   styleUrl: './entidades.component.scss'
 })
@@ -32,7 +32,8 @@ export class EntidadesComponent implements AfterViewInit {
 
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
-displayedColumns: string[] = ['nombre', 'sigla', 'codExterno', 'action'];
+public documentos: Documento[];
+displayedColumns: string[] = ['tipoDoc', 'numDoc', 'nombre', 'sigla', 'codExterno', 'action'];
 dataSource: Entidad[] = [];
 resultsLength = 0;
 @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,12 +44,28 @@ public formGroup: FormGroup;
     readonly router: Router,
     readonly entidadService: EntidadService){
     this.formGroup = this.fb.group({
+      idDocumento: [''],
+      numeroDocumento: [''],
       nombre: ['']
     });
   }
 
   ngAfterViewInit() {
    this.getEntidad();
+   this.getTiposDocumentos();
+  }
+
+  getTiposDocumentos(){
+    this.entidadService.obtenerDocumentos()
+    .subscribe({
+      next: res => {
+        this.documentos = res;
+      },
+      error: err => {
+        console.log(err);
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
+      }
+    })
   }
 
   getEntidad(){

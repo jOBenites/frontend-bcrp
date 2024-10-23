@@ -53,7 +53,7 @@ export class FormSistemaComponent implements AfterViewInit {
         usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : ''],
         usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : ''],
         idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : ''],
-        unidOrganizacional: [params['unidOrganizacional'] != null ? params['unidOrganizacional'] : '']
+        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '']
       });
   }
 

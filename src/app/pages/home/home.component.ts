@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer', { read: false, static: false }) sidenav: MatSidenav | undefined;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel> | undefined;
-  public sidenavWidth = 19;
+  public sidenavWidth = 20;
   public hideArrow: boolean = false;
   modo__: DrawerMode = DrawerMode.Side;
   _allExpandState = false;
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   drawerToogle() {
     this.modo__ = DrawerMode.Side;
     this.allExpandState = false;
-    if (this.sidenavWidth >= 19) {
+    if (this.sidenavWidth >= 20) {
       this.decrease();
     } else {
       this.increase();
@@ -161,7 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   increase() {
-    this.sidenavWidth = 19;
+    this.sidenavWidth = 20;
     this.hideArrow = false;
   }
 

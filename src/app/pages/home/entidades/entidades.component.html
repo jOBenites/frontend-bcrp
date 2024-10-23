@@ -5,7 +5,24 @@
   <mat-card-content style="margin-top: 40px;">
     <form [formGroup]="formGroup">
       <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <mat-form-field class="w-100">
+            <mat-label>Tipo documento</mat-label>
+            <mat-select name="idDocumento" formControlName="idDocumento">
+              <mat-option value="">--Seleccionar--</mat-option>
+              <mat-option *ngFor="let item of documentos"
+                [value]="item.idDocumentoIdentidad.toString()">{{item.tipoDocumentoIdentidad}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="w-100">
+            <mat-label>Número de documento</mat-label>
+            <input matInput name="numeroDocumento" formControlName="numeroDocumento"
+              placeholder="Ingrese el número de documento">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Nombre</mat-label>
             <input matInput name="nombre" formControlName="nombre" placeholder="Ingresa el nombre de la entidad">
@@ -29,25 +46,32 @@
 
       <table mat-table [dataSource]="dataSource" matSort matSortDisableClear
         matSortActive="nombre" matSortDirection="desc">
-        <!-- Number Column -->
+       
+        <ng-container matColumnDef="tipoDoc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Tipo documento</th>
+          <td mat-cell *matCellDef="let row">{{row.tipoDoc}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="numDoc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Número documento</th>
+          <td mat-cell *matCellDef="let row">{{row.numeroDocumento}}</td>
+        </ng-container>
+
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Nombre</th>
           <td mat-cell *matCellDef="let row">{{row.nombre}}</td>
         </ng-container>
 
-        <!-- Title Column -->
         <ng-container matColumnDef="sigla">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sigla</th>
           <td mat-cell *matCellDef="let row">{{row.sigla}}</td>
         </ng-container>
 
-        <!-- State Column -->
         <ng-container matColumnDef="codExterno">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Código externo</th>
           <td mat-cell *matCellDef="let row">{{row.codExterno}}</td>
         </ng-container>
 
-        <!-- Created Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Acción</th>
           <td mat-cell *matCellDef="let row">

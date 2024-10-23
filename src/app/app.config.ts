@@ -29,7 +29,11 @@ export const appConfig: ApplicationConfig = {
             config: {
                 tokenGetter: tokenGetter,
                 allowedDomains: ["localhost:8081"],
-                disallowedRoutes: ["http://localhost:8081/api/v1/login"],
+                disallowedRoutes: [
+                  "http://localhost:8081/api/v1/login",
+                  "http://localhost:8081/api/v1/oauth/refreshToken",
+                  "http://localhost:8081/api/v1/oauth/logout"
+                ],
             },
         }),
     ),

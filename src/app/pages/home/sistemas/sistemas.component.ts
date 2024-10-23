@@ -30,7 +30,7 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 export class SistemasComponent implements AfterViewInit {
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
-displayedColumns: string[] = ['codigo', 'nombre', 'version', 'action'];
+displayedColumns: string[] = ['nombre', 'version', 'responsable', 'responsableAlt', 'unidadOrg', 'action'];
 dataSource: Sistema[] = [];
 resultsLength = 0;
 

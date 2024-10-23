@@ -56,8 +56,8 @@ export class AuthService {
           this.router.navigateByUrl('/login');
           return of()
         }),
-        tap(data => {
-          const loginSuccessData = data as AuthResponse;
+        tap((data: AuthResponse) => {
+          const loginSuccessData = data;
           this.storeTokens(loginSuccessData);
         })
       );
@@ -65,7 +65,7 @@ export class AuthService {
 
   public storeTokens(data: AuthResponse) {
     this.sessionService.setToken(data.access_token);
-    this.sessionService.setRefreshToken(data.refreshToken);
+    this.sessionService.setRefreshToken(data.refresh_token);
   }
 
 }
