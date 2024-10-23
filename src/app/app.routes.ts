@@ -20,6 +20,6 @@ export const routes: Routes = [
   ] },
   { path: 'portal', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'login' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];
