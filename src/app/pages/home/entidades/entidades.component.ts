@@ -68,8 +68,7 @@ public formGroup: FormGroup;
     })
   }
 
-  getEntidad(){
-    // If the user changes the sort order, reset back to the first page.
+  getEntidad() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
@@ -81,7 +80,9 @@ public formGroup: FormGroup;
             this.paginator.pageSize, 
             this.sort.active,
             this.sort.direction,
-            this.formGroup.get('nombre')?.value)
+            this.formGroup.get('nombre')?.value,
+            this.formGroup.get('idDocumento')?.value,
+            this.formGroup.get('numeroDocumento')?.value)
           .pipe(catchError(() => of(null)));
         }),
         map(data => {
@@ -97,6 +98,8 @@ public formGroup: FormGroup;
   }
 
   clean(): void {
+    this.formGroup.get('idDocumento')?.setValue('');
+    this.formGroup.get('numeroDocumento')?.setValue('');
     this.formGroup.get('nombre')?.setValue('');
   }
 

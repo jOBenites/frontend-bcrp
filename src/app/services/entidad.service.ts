@@ -22,9 +22,10 @@ export class EntidadService {
   public readAll(): Observable<Entidad[]> {
     return this.http.get<Entidad[]>(this.baseUrl + '/entidades');
   }
-  public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, nombre: string
+  public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, nombre: string,
+    tipoDoc: string, numDoc: string
   ): Observable<DataSourceEntidad> {
-    return this.http.get<DataSourceEntidad>(this.baseUrl + `/entidades?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&nombre=${nombre}`);
+    return this.http.get<DataSourceEntidad>(this.baseUrl + `/entidades?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&nombre=${nombre}&tipoDocumento=${tipoDoc}&numeroDocumento=${numDoc}`);
   }
   public update(data: Entidad): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/entidad/'+ data.idEntidad, data);

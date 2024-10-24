@@ -55,7 +55,8 @@
               <div class="col-md-6">
                 <mat-form-field class="w-100">
                   <mat-label>Responsable</mat-label>
-                  <mat-select name="usuarioResponsable" formControlName="usuarioResponsable">
+                  <mat-select name="usuarioResponsable" formControlName="usuarioResponsable" 
+                  (selectionChange)="selectedValue($event)">
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of responsables" [value]="item.codigo.toString()">{{item.usuario}}</mat-option>
                   </mat-select>
@@ -64,7 +65,8 @@
               <div class="col-md-6">
                 <mat-form-field class="w-100">
                   <mat-label>Responsable alterno</mat-label>
-                  <mat-select name="usuarioResponsableAlt" formControlName="usuarioResponsableAlt">
+                  <mat-select name="usuarioResponsableAlt" formControlName="usuarioResponsableAlt"
+                  (selectionChange)="selectedValueAlt($event)">
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of responsables" [value]="item.codigo.toString()">{{item.usuario}}</mat-option>
                   </mat-select>

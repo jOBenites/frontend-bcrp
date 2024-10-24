@@ -41,6 +41,9 @@ $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-s
 .header-title {
   font-family: AlfaSlabOne, serif !important;
 }
+.mat-mdc-form-field-error {
+  font-size: 12px !important;
+}
 
 /*START INPUTS*/
 // .dense-2 {

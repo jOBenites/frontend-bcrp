@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgFor } from "@angular/common";
@@ -27,6 +27,8 @@ export class FormSistemaComponent implements AfterViewInit {
   buttonTitle: string;
   responsables: Persona[] = [];
   eclasistidad: Estado[] = [];
+  private responsableMain: string = '';
+  private responsableAlt: string = '';
   constructor(readonly fb: FormBuilder, 
     readonly location: Location,
     readonly route: ActivatedRoute,
@@ -100,8 +102,8 @@ export class FormSistemaComponent implements AfterViewInit {
       formData.append("urlExterno", this.formGroup.get('urlExterno')?.value);
       formData.append("idUsuarioResponsable", this.formGroup.get('usuarioResponsable')?.value);
       formData.append("idUsuarioResponsableAlt", this.formGroup.get('usuarioResponsableAlt')?.value);
-      formData.append("usuarioResponsable", "usuarioResponsable");
-      formData.append("usuarioResponsableAlt", "usuarioResponsableAlt");
+      formData.append("usuarioResponsable", this.responsableMain);
+      formData.append("usuarioResponsableAlt", this.responsableAlt);
       formData.append("idEstadoCritico", this.formGroup.get('idEstadoCritico')?.value);
       formData.append("unidOrganizacional", this.formGroup.get('unidOrganizacional')?.value);
 
@@ -151,6 +153,13 @@ export class FormSistemaComponent implements AfterViewInit {
         this.openSnackBar(err.message, '✗', 'error-snackbar');
       }
     });
+  }
+
+  selectedValue(event: MatSelectChange) {
+    this.responsableMain = event.source.triggerValue;
+  }
+  selectedValueAlt(event: MatSelectChange) {
+    this.responsableAlt = event.source.triggerValue;
   }
 
   onFileChanged(event: any): void {

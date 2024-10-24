@@ -23,7 +23,7 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 @Component({
   selector: 'app-listado-sistema',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule,    MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, DatePipe, DialogConfirmationComponent],
+  imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, DatePipe, DialogConfirmationComponent],
   templateUrl: './sistemas.component.html',
   styleUrl: './sistemas.component.scss'
 })
