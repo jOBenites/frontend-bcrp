@@ -49,25 +49,30 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     if(this.formGroup.valid) {
-      this.showSpinner = true;
       let usuario = new Usuario();
         usuario.setUsuario = this.formGroup.get('user')?.value;
         usuario.setPassword = this.formGroup.get('password')?.value;
-        usuario.setHiddenCaptcha = this.captcha.hiddenCaptcha;
         usuario.setCaptcha = this.formGroup.get('captchaText')?.value;
+        usuario.setHiddenCaptcha = this.captcha.hiddenCaptcha;
 
-    this.authService.signIn(usuario)
-      .subscribe({ next: value => {
-        this.showSpinner = false;
-        this.sessionService.setUser(value.nombre);
-        this.sessionService.setToken(value.token);
-        this.sessionService.setRefreshToken(value.refreshToken);
-        this.router.navigate(['portal']);
-      }, error: err => {
-        this.showSpinner = false;
-        console.log(err);
-        this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
-      } });
+        if(usuario.captcha === usuario.hiddenCaptcha) {
+          this.showSpinner = true;
+          this.authService.signIn(usuario)
+          .subscribe({ next: value => {
+            this.showSpinner = false;
+            this.sessionService.setUser(value.nombre);
+            this.sessionService.setToken(value.token);
+            this.sessionService.setRefreshToken(value.refreshToken);
+            this.router.navigate(['portal']);
+          }, error: err => {
+            this.showSpinner = false;
+            console.log(err);
+            this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
+          } });
+        } else {
+          // this.formGroup.get('captchaText')?.setErrors([{invalid: true, message: 'El texto ingresado es incorrecto'}])
+          this.openSnackBar('El texto ingresado es incorrecto', '✗', 'error-snackbar');
+        }
     }
   }
 
