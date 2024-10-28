@@ -16,24 +16,26 @@ import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Entidad } from '../../../models/entidad.model';
-import { EntidadService } from '../../../services/entidad.service';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
-import { Documento } from '../../../interfaces/documento.interface';
+import { Sistema } from '../../../models/sistema.model';
+import { SistemaService } from '../../../services/sistema.service';
+import { ModuloService } from '../../../services/modulo.service';
+import { Modulo } from '../../../models/modulo.model';
 
 @Component({
-  selector: 'app-entidades',
+  selector: 'app-modulos',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, NgFor],
-  templateUrl: './entidades.component.html',
-  styleUrl: './entidades.component.scss'
+  templateUrl: './modulos.component.html',
+  styleUrl: './modulos.component.scss'
 })
-export class EntidadesComponent implements AfterViewInit {
+export class ModulosComponent implements AfterViewInit {
 
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
-public documentos: Documento[];
-displayedColumns: string[] = ['tipoDoc', 'numDoc', 'nombre', 'sigla', 'codExterno', 'action'];
-dataSource: Entidad[] = [];
+public sistemas: Sistema[];
+displayedColumns: string[] = ['numero', 'nombreModulo', 'action'];
+dataSource: Modulo[] = [];
 resultsLength = 0;
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
@@ -41,24 +43,24 @@ resultsLength = 0;
 public formGroup: FormGroup;
   constructor(readonly fb: FormBuilder, 
     readonly router: Router,
-    readonly entidadService: EntidadService){
+    readonly sistemaService: SistemaService,
+    readonly moduloService: ModuloService){
     this.formGroup = this.fb.group({
-      idDocumento: [''],
-      numeroDocumento: [''],
-      nombre: ['']
+      idSistema: ['']
     });
   }
 
   ngAfterViewInit() {
-   this.getEntidad();
-   this.getTiposDocumentos();
+    this.getSistemas();
+    this.getModulos();
   }
 
-  getTiposDocumentos(){
-    this.entidadService.obtenerDocumentos()
+  getSistemas(){
+    this.sistemaService.readAll()
     .subscribe({
       next: res => {
-        this.documentos = res;
+        console.log(res);
+        this.sistemas = res.content;
       },
       error: err => {
         console.log(err);
@@ -67,21 +69,19 @@ public formGroup: FormGroup;
     })
   }
 
-  getEntidad() {
+  getModulos() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.entidadService.readPaginate(
+          return this.moduloService.readPaginate(
             this.paginator.pageIndex,  
             this.paginator.pageSize, 
             this.sort.active,
             this.sort.direction,
-            this.formGroup.get('nombre')?.value,
-            this.formGroup.get('idDocumento')?.value,
-            this.formGroup.get('numeroDocumento')?.value)
+            this.formGroup.get('idSistema')?.value)
           .pipe(catchError(() => of(null)));
         }),
         map(data => {
@@ -97,32 +97,30 @@ public formGroup: FormGroup;
   }
 
   clean(): void {
-    this.formGroup.get('idDocumento')?.setValue('');
-    this.formGroup.get('numeroDocumento')?.setValue('');
-    this.formGroup.get('nombre')?.setValue('');
+    this.formGroup.get('idSistema')?.setValue('');
   }
 
   search(): void {
-    this.getEntidad();
+    this.getModulos();
   }
 
   edit(data: Entidad) {
-    this.router.navigate(['home/entidades/nueva-entidad', data]);
+    this.router.navigate(['home/modulos/nuevo-modulo', data]);
   }
 
   delete(data: any) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
-      data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
+      data: {title: 'Eliminar Módulo', message: '¿Está seguro de eliminar el módulo?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.entidadService.delete(data.idEntidad)
+        this.moduloService.delete(data.idModulo)
           .subscribe({
             next: res => {
             console.log(res);
             this.openSnackBar(res.message, '✓', 'success-snackbar');
-            this.getEntidad();
+            this.getModulos();
           },
           error: err => {
             console.log(err);

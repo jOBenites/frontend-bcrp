@@ -61,8 +61,20 @@ $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-s
   color: theme.$font-primary !important;
 }
 .btn-custom-danger {
+  background-color: theme.$danger !important;
+  color: theme.$font-primary !important;
+}
+.btn-mini-custom-danger {
   background-color: theme.$font-primary !important;
   color: theme.$danger !important;
+}
+.btn-mini-custom-accent {
+  background-color: theme.$font-primary !important;
+  color: theme.$accent !important;
+}
+.btn-mini-custom-primary {
+  background-color: theme.$font-primary !important;
+  color: theme.$primary !important;
 }
 /*END BUTTONS*/
 
@@ -87,6 +99,13 @@ $typography-config: mat.m2-define-typography-config($font-family: 'Amiko, sans-s
 
 .mat-mdc-nav-list .mat-mdc-list-item {
   border-radius: 0 !important;
+}
+
+.mat-expansion-panel-header-title {
+  align-items: unset !important;
+}
+.mat-expansion-panel-header-description {
+  align-items: center !important;
 }
 /*END SIDENAV O DRAWER*/
 

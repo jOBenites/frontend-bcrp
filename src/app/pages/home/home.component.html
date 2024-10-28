@@ -13,9 +13,6 @@
    </div>
     <img mat-card-avatar style="cursor: pointer;" [src]="('avatar' | loadPicture: 'png')" alt="avatar" height="60%"
     [matMenuTriggerFor]="menu">
-    <!-- <button id="avatar" class="ml-auto" mat-mini-fab [matMenuTriggerFor]="menu">
-      <mat-icon md-list-icon>account_circle</mat-icon>
-    </button> -->
     <div style="width: 10px;"></div>
     <h6 class="toggle_menu_desktop">{{userName}}</h6>
     <mat-menu #menu="matMenu" class="z-3">
@@ -51,7 +48,7 @@
         </mat-expansion-panel-header>
         <mat-list *ngIf="opcion.subopciones.length > 0">
           <mat-list-item *ngFor="let subopcion of opcion.subopciones" [routerLink]="[subopcion.url]" [routerLinkActive]="'is-active'">
-            <mat-icon matListItemIcon>fiber_manual_record</mat-icon>
+            <mat-icon style="font-size: 12px;" matListItemIcon>fiber_manual_record</mat-icon>
             <div *ngIf="sidenavWidth > 6" class="text-center" matListItemTitle>{{subopcion.titulo}}</div>
           </mat-list-item>
         </mat-list>

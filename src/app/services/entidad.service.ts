@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Entidad } from '../models/entidad.model';
 import { DataSourceEntidad } from '../interfaces/datasource-entidad.interface';
 import { environment } from '../../environments/environment';
-import { ApiResponse } from '../models/api-response.interface';
+import { ApiResponse } from '../interfaces/api-response.interface';
 import { Documento } from '../interfaces/documento.interface';
 
 

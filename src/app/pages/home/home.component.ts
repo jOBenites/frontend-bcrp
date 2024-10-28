@@ -120,7 +120,16 @@ export class HomeComponent implements OnInit, OnDestroy {
           {
             icono: 'settings_accessibility',
             titulo: 'Roles y Perfiles',
-            subopciones: []
+            subopciones: [
+              {
+                titulo: 'Gestión de roles',
+                url: 'roles'
+              },
+              {
+                titulo: 'Gestión de perfiles',
+                url: 'perfiles'
+              }
+            ]
           },
           {
             icono: 'verified_user',
@@ -133,6 +142,20 @@ export class HomeComponent implements OnInit, OnDestroy {
               {
                 titulo: 'Gestión de sistemas',
                 url: 'sistemas'
+              }
+            ]
+          },
+          {
+            icono: 'format_list_numbered',
+            titulo: 'Módulos y opciones',
+            subopciones: [
+               {
+                titulo: 'Módulos',
+                url: 'modulos'
+              },
+              {
+                titulo: 'Opciones',
+                url: 'opciones'
               }
             ]
           }

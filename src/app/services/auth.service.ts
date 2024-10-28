@@ -1,13 +1,14 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
-import { AuthResponse } from '../models/auth.interface';
+import { AuthResponse } from '../interfaces/auth.interface';
 import { Usuario } from '../models/usuario.model';
 import { environment } from '../../environments/environment';
 import { SessionService } from './session.service';
 import { IS_PUBLIC } from './auth.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { ICaptcha } from '../interfaces/captcha.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,10 @@ export class AuthService {
           this.storeTokens(loginSuccessData);
         })
       );
+  }
+
+  public getCaptcha(): Observable<ICaptcha> {
+    return this.http.get<ICaptcha>(this.baseUrl + '/oauth/captcha', this.CONTEXT);
   }
 
   public storeTokens(data: AuthResponse) {

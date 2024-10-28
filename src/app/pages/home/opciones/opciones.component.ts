@@ -16,23 +16,24 @@ import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Entidad } from '../../../models/entidad.model';
-import { EntidadService } from '../../../services/entidad.service';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
-import { Documento } from '../../../interfaces/documento.interface';
+import { Sistema } from '../../../models/sistema.model';
+import { SistemaService } from '../../../services/sistema.service';
+import { DataSourceSistema } from '../../../interfaces/datasource-sistema.interface';
 
 @Component({
-  selector: 'app-entidades',
+  selector: 'app-opciones',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTableModule, MatProgressSpinnerModule, MatPaginatorModule, MatSortModule, MatIconModule, NgFor],
-  templateUrl: './entidades.component.html',
-  styleUrl: './entidades.component.scss'
+  templateUrl: './opciones.component.html',
+  styleUrl: './opciones.component.scss'
 })
-export class EntidadesComponent implements AfterViewInit {
+export class OpcionesComponent implements AfterViewInit {
 
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
-public documentos: Documento[];
-displayedColumns: string[] = ['tipoDoc', 'numDoc', 'nombre', 'sigla', 'codExterno', 'action'];
+public sistemas: Sistema[];
+displayedColumns: string[] = ['numero', 'opcion', 'link', 'action'];
 dataSource: Entidad[] = [];
 resultsLength = 0;
 @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,24 +42,24 @@ resultsLength = 0;
 public formGroup: FormGroup;
   constructor(readonly fb: FormBuilder, 
     readonly router: Router,
-    readonly entidadService: EntidadService){
+    readonly sistemaService: SistemaService){
     this.formGroup = this.fb.group({
-      idDocumento: [''],
-      numeroDocumento: [''],
-      nombre: ['']
+      idSistema: [''],
+      idModulo: ['']
     });
   }
 
   ngAfterViewInit() {
-   this.getEntidad();
-   this.getTiposDocumentos();
+  //  this.getEntidad();
+   this.getSistemas();
   }
 
-  getTiposDocumentos(){
-    this.entidadService.obtenerDocumentos()
+  getSistemas(){
+    this.sistemaService.readAll()
     .subscribe({
       next: res => {
-        this.documentos = res;
+        console.log(res);
+        this.sistemas = res.content;
       },
       error: err => {
         console.log(err);
@@ -67,7 +68,7 @@ public formGroup: FormGroup;
     })
   }
 
-  getEntidad() {
+  /*getEntidad() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
@@ -94,24 +95,22 @@ public formGroup: FormGroup;
         }),
       )
       .subscribe(data => (this.dataSource = data));
-  }
+  }*/
 
   clean(): void {
-    this.formGroup.get('idDocumento')?.setValue('');
-    this.formGroup.get('numeroDocumento')?.setValue('');
-    this.formGroup.get('nombre')?.setValue('');
+    this.formGroup.get('idSistema')?.setValue('');
   }
 
   search(): void {
-    this.getEntidad();
+    // this.getEntidad();
   }
 
   edit(data: Entidad) {
-    this.router.navigate(['home/entidades/nueva-entidad', data]);
+    this.router.navigate(['home/modulos/nueva-opcion', data]);
   }
 
   delete(data: any) {
-    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+    /*const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
     });
@@ -130,7 +129,7 @@ public formGroup: FormGroup;
           }
         });
       }
-    });
+    });*/
   }
 
   openSnackBar(message: string, action: string, style: string) {

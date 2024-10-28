@@ -32,7 +32,8 @@ export const appConfig: ApplicationConfig = {
                 disallowedRoutes: [
                   "http://localhost:8081/api/v1/login",
                   "http://localhost:8081/api/v1/oauth/refreshToken",
-                  "http://localhost:8081/api/v1/oauth/logout"
+                  "http://localhost:8081/api/v1/oauth/logout",
+                  "http://localhost:8081/api/v1/oauth/captcha"
                 ],
             },
         }),

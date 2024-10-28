@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Autenticacion } from '../models/autenticacion.interface';
+import { Autenticacion } from '../interfaces/autenticacion.interface';
 
 const helper = new JwtHelperService();
 
