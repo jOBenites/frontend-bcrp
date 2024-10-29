@@ -20,6 +20,10 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 import { Sistema } from '../../../models/sistema.model';
 import { SistemaService } from '../../../services/sistema.service';
 import { DataSourceSistema } from '../../../interfaces/datasource-sistema.interface';
+import { ModuloService } from '../../../services/modulo.service';
+import { Modulo } from '../../../models/modulo.model';
+import { OpcionService } from '../../../services/opcion.service';
+import { Opcion } from '../../../models/opcion.model';
 
 @Component({
   selector: 'app-opciones',
@@ -33,8 +37,9 @@ export class OpcionesComponent implements AfterViewInit {
 readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
 public sistemas: Sistema[];
+public modulos: Modulo[];
 displayedColumns: string[] = ['numero', 'opcion', 'link', 'action'];
-dataSource: Entidad[] = [];
+dataSource: Opcion[] = [];
 resultsLength = 0;
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
@@ -42,7 +47,9 @@ resultsLength = 0;
 public formGroup: FormGroup;
   constructor(readonly fb: FormBuilder, 
     readonly router: Router,
-    readonly sistemaService: SistemaService){
+    readonly sistemaService: SistemaService,
+    readonly moduleService: ModuloService,
+    readonly opcionService: OpcionService){
     this.formGroup = this.fb.group({
       idSistema: [''],
       idModulo: ['']
@@ -50,8 +57,9 @@ public formGroup: FormGroup;
   }
 
   ngAfterViewInit() {
-  //  this.getEntidad();
    this.getSistemas();
+   this.getModulos();
+   this.getListado();
   }
 
   getSistemas(){
@@ -68,21 +76,34 @@ public formGroup: FormGroup;
     })
   }
 
-  /*getEntidad() {
+  getModulos(){
+    this.moduleService.readAll()
+    .subscribe({
+      next: res => {
+        console.log(res);
+        this.modulos = res.content;
+      },
+      error: err => {
+        console.log(err);
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
+      }
+    })
+  }
+
+  getListado() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.entidadService.readPaginate(
+          return this.opcionService.readPaginate(
             this.paginator.pageIndex,  
             this.paginator.pageSize, 
             this.sort.active,
             this.sort.direction,
-            this.formGroup.get('nombre')?.value,
-            this.formGroup.get('idDocumento')?.value,
-            this.formGroup.get('numeroDocumento')?.value)
+            this.formGroup.get('idSistema')?.value,
+            this.formGroup.get('idModulo')?.value)
           .pipe(catchError(() => of(null)));
         }),
         map(data => {
@@ -95,33 +116,34 @@ public formGroup: FormGroup;
         }),
       )
       .subscribe(data => (this.dataSource = data));
-  }*/
+  }
 
   clean(): void {
     this.formGroup.get('idSistema')?.setValue('');
+    this.formGroup.get('idModulo')?.setValue('');
   }
 
   search(): void {
-    // this.getEntidad();
+    this.getListado();
   }
 
   edit(data: Entidad) {
-    this.router.navigate(['home/modulos/nueva-opcion', data]);
+    this.router.navigate(['home/opciones/nueva-opcion', data]);
   }
 
   delete(data: any) {
-    /*const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
-      data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
+      data: {title: 'Eliminar Opción', message: '¿Está seguro de eliminar la opción?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.entidadService.delete(data.idEntidad)
+        this.opcionService.delete(data.idOpcion)
           .subscribe({
             next: res => {
             console.log(res);
             this.openSnackBar(res.message, '✓', 'success-snackbar');
-            this.getEntidad();
+            this.getListado();
           },
           error: err => {
             console.log(err);
@@ -129,7 +151,7 @@ public formGroup: FormGroup;
           }
         });
       }
-    });*/
+    });
   }
 
   openSnackBar(message: string, action: string, style: string) {

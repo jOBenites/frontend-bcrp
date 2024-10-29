@@ -13,6 +13,10 @@ import { Documento } from '../../../../interfaces/documento.interface';
 import { Entidad } from '../../../../models/entidad.model';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
+import { ModuloService } from '../../../../services/modulo.service';
+import { OpcionService } from '../../../../services/opcion.service';
+import { Modulo } from '../../../../models/modulo.model';
+import { Opcion } from '../../../../models/opcion.model';
 
 @Component({
   selector: 'app-form-opcion',
@@ -29,13 +33,16 @@ export class FormOpcionComponent implements OnInit {
   public documentos: Documento[];
   public formGroup: FormGroup;
   public sistemas: Sistema[];
+  public modulos: Modulo[];
   titulo: string;
   buttonTitle: string;
   constructor(readonly fb: FormBuilder, 
     readonly location: Location,
     readonly route: ActivatedRoute,
     readonly router: Router,
-    readonly sistemaService: SistemaService){
+    readonly sistemaService: SistemaService,
+    readonly moduleService: ModuloService,
+    readonly opcionService: OpcionService){
     let params = this.route.snapshot.params;
     console.log(params);
     if(params['idEntidad'] != null){
@@ -47,17 +54,17 @@ export class FormOpcionComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      idOpcion: [0],
-      idSistema: ['', Validators.required],
-      idModulo: ['', Validators.required],
-      nombre: ['', Validators.required],
-      link: ['']
+      idOpcion: [params['idOpcion'] != null ? params['idOpcion'] : 0],
+      idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
+      idModulo: [params['idModulo'] != null ? params['idModulo'] : '', Validators.required],
+      nombre: [params['nombreOpcion'] != null ? params['nombreOpcion'] : '', Validators.required],
+      link: [params['url'] != null ? params['url'] : '']
     });
   }
 
   ngOnInit(): void {
     this.getSistemas();
-    // this.formGroup.controls['codExterno'].disable();
+    this.getModulos();
   }
 
   getSistemas(){
@@ -74,52 +81,65 @@ export class FormOpcionComponent implements OnInit {
     })
   }
 
+  getModulos(){
+    this.moduleService.readAll()
+    .subscribe({
+      next: res => {
+        console.log(res);
+        this.modulos = res.content;
+      },
+      error: err => {
+        console.log(err);
+        this.openSnackBar(err.message, '✗', 'error-snackbar');
+      }
+    })
+  }
+
   save() {
     if(this.formGroup.valid) {
-      let data = new Entidad();
-      data.setIdDocumento = this.formGroup.get('idDocumento')?.value; 
-      data.setNumeroDocumento = this.formGroup.get('numeroDocumento')?.value; 
-      data.setNombre = this.formGroup.get('nombre')?.value; 
-      data.setSigla = this.formGroup.get('sigla')?.value; 
-      data.setCodExterno = this.formGroup.get('codExterno')?.value; 
-      if(this.formGroup.get('idEntidad')?.value == 0){
+      let data = new Opcion();
+      data.setIdSistema = this.formGroup.get('idSistema')?.value; 
+      data.setIdModulo = this.formGroup.get('idModulo')?.value; 
+      data.setNombreModulo = this.formGroup.get('nombre')?.value;
+      data.setUrl = this.formGroup.get('link')?.value; 
+      if(this.formGroup.get('idOpcion')?.value == 0) {
         this.insert(data);
       } else {
-        data.setIdentidad = this.formGroup.get('idEntidad')?.value; 
+        data.setIdOpcion = this.formGroup.get('idOpcion')?.value; 
         this.update(data);
       }
     }
   }
 
-  private insert(data: Entidad) {
-    /*this.entidadService.create(data)
+  private insert(data: Opcion) {
+    this.opcionService.create(data)
     .subscribe({
       next: res => {
         console.log(res);
         this.openSnackBar(res.message, '✓', 'success-snackbar');
-        this.router.navigateByUrl('/home/entidades');
+        this.router.navigateByUrl('/home/opciones');
       },
       error: err => {
         console.log(err);
         this.openSnackBar(err.message, '✗', 'error-snackbar');
       }
-    });*/
+    });
   }
 
-  private update(data: Entidad) {
-    /*this.entidadService.update(data)
+  private update(data: Opcion) {
+    this.opcionService.update(data)
     .subscribe({
       next: res => {
         console.log(res);
         this.openSnackBar(res.message, '✓', 'success-snackbar');
         // this.location.back();
-        this.router.navigateByUrl('/home/entidades');
+        this.router.navigateByUrl('/home/opciones');
       },
       error: err => {
         console.log(err);
         this.openSnackBar(err.message, '✗', 'error-snackbar');
       }
-    });*/
+    });
   }
 
   cancel() {

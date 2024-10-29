@@ -25,7 +25,7 @@
                 <mat-label>Módulo</mat-label>
                 <mat-select name="idModulo" formControlName="idModulo">
                   <mat-option value="">--Seleccionar--</mat-option>
-                  <mat-option *ngFor="let item of sistemas" [value]="item.idSistema.toString()">{{item.nombre}}</mat-option>
+                  <mat-option *ngFor="let item of modulos" [value]="item.idModulo.toString()">{{item.nombreModulo}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -54,7 +54,7 @@
                 <button type="button" [routerLink]="['../']" mat-raised-button class="w-100">Cancelar</button>
               </div>
               <div class="col-lg-6">
-                <button type="submit" (click)="save()" mat-flat-button
+                <button type="submit" mat-flat-button
                   class="btn-custom-primary w-100">{{buttonTitle}}</button>
               </div>
             </div>
