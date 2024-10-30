@@ -13,6 +13,8 @@ import { FormModuloComponent } from './pages/home/modulos/form-modulo/form-modul
 import { PerfilesComponent } from './pages/home/perfiles/perfiles.component';
 import { FormPerfilComponent } from './pages/home/perfiles/form-perfil/form-perfil.component';
 import { FormOpcionComponent } from './pages/home/opciones/form-opcion/form-opcion.component';
+import { RolesComponent } from './pages/home/roles/roles.component';
+import { FormRoleComponent } from './pages/home/roles/form-role/form-role.component';
 
 export const routes: Routes = [
   { path: 'home', 
@@ -29,6 +31,8 @@ export const routes: Routes = [
     { path: 'opciones/nueva-opcion', component: FormOpcionComponent },
     { path: 'perfiles', component: PerfilesComponent },
     { path: 'perfiles/nuevo-perfil', component: FormPerfilComponent },
+    { path: 'roles', component: RolesComponent },
+    { path: 'roles/nuevo-rol', component: FormRoleComponent },
   ] },
   { path: 'portal', component: DashboardComponent },
   { path: 'login', component: LoginComponent },

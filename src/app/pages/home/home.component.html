@@ -11,10 +11,10 @@
     <img [src]="('logo' | loadPicture: 'svg')" alt="bcrp" width="50px" height="50%">
     <h1 class="title-logo toggle_menu_desktop">Banco Central de Reserva del Perú</h1>
    </div>
-    <img mat-card-avatar style="cursor: pointer;" [src]="('avatar' | loadPicture: 'png')" alt="avatar" height="60%"
+    <img mat-card-avatar role='button' [src]="('avatar' | loadPicture: 'png')" alt="avatar" height="60%"
     [matMenuTriggerFor]="menu">
     <div style="width: 10px;"></div>
-    <h6 class="toggle_menu_desktop">{{userName}}</h6>
+    <h6 class="toggle_menu_desktop" role='button' [matMenuTriggerFor]="menu">{{userName}}</h6>
     <mat-menu #menu="matMenu" class="z-3">
       <button mat-menu-item>
         <mat-icon md-list-icon>account_circle</mat-icon>
