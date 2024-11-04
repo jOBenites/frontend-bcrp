@@ -1,6 +1,6 @@
 import { Perfil } from "../models/perfil.model";
 
-export interface DataSourceRole {
+export interface DataSourcePerfil {
   content: Perfil[];
   pageNumber: number;
   pageSize: number;

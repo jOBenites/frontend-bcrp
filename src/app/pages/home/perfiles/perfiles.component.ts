@@ -20,6 +20,8 @@ import { DialogConfirmationComponent } from '../../../components/dialog-confirma
 import { Sistema } from '../../../models/sistema.model';
 import { SistemaService } from '../../../services/sistema.service';
 import { DataSourceSistema } from '../../../interfaces/datasource-sistema.interface';
+import { PerfilService } from '../../../services/perfil.service';
+import { Perfil } from '../../../models/perfil.model';
 
 @Component({
   selector: 'app-perfiles',
@@ -34,7 +36,7 @@ readonly _snackBar = inject(MatSnackBar);
 readonly dialog = inject(MatDialog);
 public sistemas: Sistema[];
 displayedColumns: string[] = ['numero', 'sistema', 'perfil', 'action'];
-dataSource: Entidad[] = [];
+dataSource: Perfil[] = [];
 resultsLength = 0;
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
@@ -42,7 +44,8 @@ resultsLength = 0;
 public formGroup: FormGroup;
   constructor(readonly fb: FormBuilder, 
     readonly router: Router,
-    readonly sistemaService: SistemaService){
+    readonly sistemaService: SistemaService,
+    readonly perfilService: PerfilService){
     this.formGroup = this.fb.group({
       idSistema: [''],
       perfil: ['']
@@ -50,8 +53,8 @@ public formGroup: FormGroup;
   }
 
   ngAfterViewInit() {
-  //  this.getEntidad();
    this.getSistemas();
+   this.getListado();
   }
 
   getSistemas(){
@@ -68,21 +71,20 @@ public formGroup: FormGroup;
     })
   }
 
-  /*getEntidad() {
+  getListado() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.entidadService.readPaginate(
+          return this.perfilService.readPaginate(
             this.paginator.pageIndex,  
             this.paginator.pageSize, 
             this.sort.active,
             this.sort.direction,
-            this.formGroup.get('nombre')?.value,
-            this.formGroup.get('idDocumento')?.value,
-            this.formGroup.get('numeroDocumento')?.value)
+            this.formGroup.get('idSistema')?.value,
+            this.formGroup.get('perfil')?.value)
           .pipe(catchError(() => of(null)));
         }),
         map(data => {
@@ -95,33 +97,33 @@ public formGroup: FormGroup;
         }),
       )
       .subscribe(data => (this.dataSource = data));
-  }*/
+  }
 
   clean(): void {
     this.formGroup.get('idSistema')?.setValue('');
   }
 
   search(): void {
-    // this.getEntidad();
+    this.getListado();
   }
 
   edit(data: Entidad) {
-    this.router.navigate(['home/modulos/nuevo-perfil', data]);
+    this.router.navigate(['home/perfiles/nuevo-perfil', data]);
   }
 
   delete(data: any) {
-    /*const dialogRef = this.dialog.open(DialogConfirmationComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
-      data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
+      data: {title: 'Eliminar Perfil', message: '¿Está seguro de eliminar el Perfil?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.entidadService.delete(data.idEntidad)
+        this.perfilService.delete(data.idEntidad)
           .subscribe({
             next: res => {
             console.log(res);
             this.openSnackBar(res.message, '✓', 'success-snackbar');
-            this.getEntidad();
+            this.getListado();
           },
           error: err => {
             console.log(err);
@@ -129,7 +131,7 @@ public formGroup: FormGroup;
           }
         });
       }
-    });*/
+    });
   }
 
   openSnackBar(message: string, action: string, style: string) {

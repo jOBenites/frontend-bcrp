@@ -19,10 +19,19 @@
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100">
-                  <mat-label>Rol</mat-label>
-                  <mat-select name="idSistema" formControlName="idSistema">
+                  <mat-label>Entidad</mat-label>
+                  <mat-select name="idEntidad" formControlName="idEntidad">
                     <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of sistemas" [value]="item.idSistema.toString()">{{item.nombre}}</mat-option>
+                    <mat-option *ngFor="let item of entidades" [value]="item.idEntidad">{{item.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Rol</mat-label>
+                  <mat-select name="idRol" formControlName="idRol">
+                    <mat-option value="">--Seleccionar--</mat-option>
+                    <mat-option *ngFor="let item of roles" [value]="item.idRol">{{item.nombreRol}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
