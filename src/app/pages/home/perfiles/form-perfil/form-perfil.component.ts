@@ -57,7 +57,7 @@ export class FormPerfilComponent implements OnInit {
 
     this.formGroup = this.fb.group({
       idPerfil: [params['idPerfil'] != null ? params['idPerfil'] : 0],
-      idSistema: [params['idSisteam'] != null ? params['idSisteam'] : '', Validators.required],
+      idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
       idEntidad: [params['idEntidad'] != null ? params['idEntidad'] : '', Validators.required],
       idRol: [params['idRol'] != null ? params['idRol'] : '', Validators.required],
       nombre: [params['nombrePerfil'] != null ? params['nombrePerfil'] : '', Validators.required]
@@ -89,7 +89,7 @@ export class FormPerfilComponent implements OnInit {
     .subscribe({
       next: res => {
         console.log(res);
-        this.entidades = res;
+        this.entidades = res.content;
       },
       error: err => {
         console.log(err);
@@ -103,7 +103,7 @@ export class FormPerfilComponent implements OnInit {
     .subscribe({
       next: res => {
         console.log(res);
-        this.roles = res;
+        this.roles = res.content;
       },
       error: err => {
         console.log(err);
@@ -113,6 +113,7 @@ export class FormPerfilComponent implements OnInit {
   }
 
   save() {
+    console.log('save');
     if(this.formGroup.valid) {
       let data = new Perfil();
       data.setIdSistema = this.formGroup.get('idSistema')?.value; 

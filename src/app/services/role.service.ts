@@ -20,8 +20,8 @@ export class RoleService {
   public create(data: Role): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.baseUrl + '/rol', data);
   }  
-  public readAll(): Observable<Role[]> {
-    return this.http.get<Role[]>(this.baseUrl + '/roles');
+  public readAll(): Observable<DataSourceRole> {
+    return this.http.get<DataSourceRole>(this.baseUrl + '/roles');
   }
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, idSistema: string,
     rol: string): Observable<DataSourceRole> {

@@ -101,6 +101,7 @@ public formGroup: FormGroup;
 
   clean(): void {
     this.formGroup.get('idSistema')?.setValue('');
+    this.formGroup.get('perfil')?.setValue('');
   }
 
   search(): void {
@@ -118,7 +119,7 @@ public formGroup: FormGroup;
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.perfilService.delete(data.idEntidad)
+        this.perfilService.delete(data.idPerfil)
           .subscribe({
             next: res => {
             console.log(res);

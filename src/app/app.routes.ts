@@ -15,12 +15,14 @@ import { FormPerfilComponent } from './pages/home/perfiles/form-perfil/form-perf
 import { FormOpcionComponent } from './pages/home/opciones/form-opcion/form-opcion.component';
 import { RolesComponent } from './pages/home/roles/roles.component';
 import { FormRoleComponent } from './pages/home/roles/form-role/form-role.component';
+import { FormUsuarioComponent } from './pages/home/usuarios/form-usuario/form-usuario.component';
 
 export const routes: Routes = [
   { path: 'home', 
     component: HomeComponent, 
     children: [
     { path: 'usuarios', component: UsuariosComponent },
+    { path: 'usuarios/nuevo-usuario', component: FormUsuarioComponent },
     { path: 'sistemas', component: SistemasComponent },
     { path: 'sistemas/formulario', component: FormSistemaComponent },
     { path: 'entidades', component: EntidadesComponent },

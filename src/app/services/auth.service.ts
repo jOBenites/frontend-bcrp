@@ -2,7 +2,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AuthResponse } from '../interfaces/auth.interface';
-import { Usuario } from '../models/usuario.model';
+import { Auth } from '../models/auth.model';
 import { environment } from '../../environments/environment';
 import { SessionService } from './session.service';
 import { IS_PUBLIC } from './auth.interceptor';
@@ -28,7 +28,7 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired();
   }
 
-  public signIn(data: Usuario): Observable<AuthResponse> {
+  public signIn(data: Auth): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(this.baseUrl + '/login', data, this.CONTEXT);
   }
 

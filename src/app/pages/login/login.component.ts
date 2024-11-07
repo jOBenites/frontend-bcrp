@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PipesModule } from '../../pipes/pipes.module';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/usuario.model';
+import { Auth } from '../../models/auth.model';
 import { SessionService } from '../../services/session.service';
 import { NgIf } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   public showSpinner: boolean = false;
   public formGroup: FormGroup;
   public captcha: ICaptcha;
+  public passwordVisible: boolean;
   constructor(readonly fb: FormBuilder, 
     readonly router: Router,
     readonly authService: AuthService,
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     if(this.formGroup.valid) {
-      let usuario = new Usuario();
+      let usuario = new Auth();
         usuario.setUsuario = this.formGroup.get('user')?.value;
         usuario.setPassword = this.formGroup.get('password')?.value;
         usuario.setCaptcha = this.formGroup.get('captchaText')?.value;
@@ -70,7 +71,7 @@ export class LoginComponent implements OnInit {
             this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
           } });
         } else {
-          // this.formGroup.get('captchaText')?.setErrors([{invalid: true, message: 'El texto ingresado es incorrecto'}])
+          this.formGroup.get('captchaText')?.setErrors({invalid: true, message: 'El texto ingresado es incorrecto'})
           this.openSnackBar('El texto ingresado es incorrecto', '✗', 'error-snackbar');
         }
     }

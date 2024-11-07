@@ -22,7 +22,7 @@
                   <mat-label>Entidad</mat-label>
                   <mat-select name="idEntidad" formControlName="idEntidad">
                     <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of entidades" [value]="item.idEntidad">{{item.nombre}}</mat-option>
+                    <mat-option *ngFor="let item of entidades" [value]="item.idEntidad.toString()">{{item.nombre}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -31,7 +31,7 @@
                   <mat-label>Rol</mat-label>
                   <mat-select name="idRol" formControlName="idRol">
                     <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of roles" [value]="item.idRol">{{item.nombreRol}}</mat-option>
+                    <mat-option *ngFor="let item of roles" [value]="item.idRol.toString()">{{item.nombreRol}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -50,8 +50,7 @@
                 <button type="button" [routerLink]="['../']" mat-raised-button class="w-100">Cancelar</button>
               </div>
               <div class="col-lg-6">
-                <button type="submit" (click)="save()" mat-flat-button
-                  class="btn-custom-primary w-100">{{buttonTitle}}</button>
+                <button type="submit" mat-flat-button class="btn-custom-primary w-100">{{buttonTitle}}</button>
               </div>
             </div>
           </form>

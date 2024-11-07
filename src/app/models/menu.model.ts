@@ -6,6 +6,7 @@ interface SubOpciones {
 interface Opciones {
   icono: string;
   titulo: string;
+  url: string;
   subopciones: Array<SubOpciones>;
 }
 

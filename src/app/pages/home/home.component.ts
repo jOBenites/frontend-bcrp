@@ -95,16 +95,19 @@ export class HomeComponent implements OnInit, OnDestroy {
           {
             icono: 'account_circle',
             titulo: 'Opción 1',
+            url: '',
             subopciones: []
           },
           {
             icono: 'account_circle',
             titulo: 'Opción 2',
+            url: '',
             subopciones: []
           },
           {
             icono: 'account_circle',
             titulo: 'Opción 3',
+            url: '',
             subopciones: []
           }
         ]
@@ -115,11 +118,13 @@ export class HomeComponent implements OnInit, OnDestroy {
           {
             icono: 'account_circle',
             titulo: 'Usuarios',
+            url: 'usuarios',
             subopciones: []
           },
           {
             icono: 'settings_accessibility',
             titulo: 'Roles y Perfiles',
+            url: '',
             subopciones: [
               {
                 titulo: 'Gestión de roles',
@@ -134,6 +139,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           {
             icono: 'verified_user',
             titulo: 'Entidades y Sistemas',
+            url: '',
             subopciones: [
               {
                 titulo: 'Gestión de entidades',
@@ -148,6 +154,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           {
             icono: 'format_list_numbered',
             titulo: 'Módulos y opciones',
+            url: '',
             subopciones: [
                {
                 titulo: 'Módulos',
