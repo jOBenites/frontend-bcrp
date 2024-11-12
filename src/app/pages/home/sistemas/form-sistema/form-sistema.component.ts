@@ -134,8 +134,11 @@ export class FormSistemaComponent implements AfterViewInit {
         this.location.back();
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }
@@ -149,8 +152,11 @@ export class FormSistemaComponent implements AfterViewInit {
         this.location.back();
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }

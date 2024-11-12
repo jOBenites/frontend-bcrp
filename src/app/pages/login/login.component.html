@@ -20,7 +20,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Contraseña</mat-label>
           <input matInput [type]="passwordVisible ? 'text' : 'password'" name="password" formControlName="password" placeholder="Ingresa tú contraseña">
-          <button *ngIf="formGroup.get('password')?.value" mat-icon-button matSuffix (click)="passwordVisible = !passwordVisible;"
+          <button type="button" *ngIf="formGroup.get('password')?.value" mat-icon-button matSuffix (click)="passwordVisible = !passwordVisible;"
             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="!passwordVisible">
             <mat-icon>{{passwordVisible ? 'visibility' : 'visibility_off'}}</mat-icon>
           </button>

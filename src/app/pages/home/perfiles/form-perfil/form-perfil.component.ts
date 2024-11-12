@@ -133,13 +133,15 @@ export class FormPerfilComponent implements OnInit {
     this.perfilService.create(data)
     .subscribe({
       next: res => {
-        console.log(res);
         this.openSnackBar(res.message, '✓', 'success-snackbar');
         this.router.navigateByUrl('/home/perfiles');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }
@@ -148,14 +150,15 @@ export class FormPerfilComponent implements OnInit {
     this.perfilService.update(data)
     .subscribe({
       next: res => {
-        console.log(res);
         this.openSnackBar(res.message, '✓', 'success-snackbar');
-        // this.location.back();
         this.router.navigateByUrl('/home/perfiles');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }

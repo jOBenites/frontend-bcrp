@@ -122,13 +122,15 @@ public formGroup: FormGroup;
         this.perfilService.delete(data.idPerfil)
           .subscribe({
             next: res => {
-            console.log(res);
             this.openSnackBar(res.message, '✓', 'success-snackbar');
             this.getListado();
           },
           error: err => {
-            console.log(err);
-            this.openSnackBar(err.message, '✗', 'error-snackbar');
+            if(err.error.message) {
+              this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+            } else {
+              this.openSnackBar(err.message, '✗', 'error-snackbar');
+            }
           }
         });
       }

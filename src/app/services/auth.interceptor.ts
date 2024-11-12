@@ -1,4 +1,4 @@
-import {HttpContextToken, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
+import {HttpContextToken, HttpHeaders, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import {inject} from "@angular/core";
 import {AuthService} from "./auth.service";
 import { SpinnerObserverService } from './spinner-observer.service';
@@ -9,7 +9,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const spinnerSvc = inject(SpinnerObserverService);
 
   if (req.context.get(IS_PUBLIC)) {
-    return next(req);
+    // let headers = new HttpHeaders();
+    //    headers = headers.set("Access-Control-Allow-Origin", "http://localhost:4200");
+    const clonedRequest = req.clone( { withCredentials: true } );
+    return next(clonedRequest);
   }
 
   if (authSvc.isAuthenticated()) {

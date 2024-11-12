@@ -6,6 +6,7 @@ export class Auth {
   readonly password: string;
   readonly hiddenCaptcha: string;
   readonly captcha: string;
+  readonly tokenUuid: string;
 
   public set setUsuario(usuario: string) {
     (this as Writeable<Auth>).usuario = usuario; 
@@ -21,6 +22,10 @@ export class Auth {
 
   public set setCaptcha(captcha: string) {
     (this as Writeable<Auth>).captcha = captcha;
+  }
+
+  public set setTokenUuid(tokenUuid: string) {
+    (this as Writeable<Auth>).tokenUuid = tokenUuid;
   }
 
 }

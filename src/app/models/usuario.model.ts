@@ -8,8 +8,6 @@ export class Usuario {
   readonly nombres: string;
   readonly apePaterno: string;
   readonly apeMaterno: string;
-  readonly apPaterno: string;
-  readonly apMaterno: string;
   readonly correoElectronico: string;
   readonly ambito: string;
   readonly sustento: string;
@@ -36,14 +34,6 @@ export class Usuario {
 
   public set setApeMaterno(apeMaterno: string) {
     (this as Writeable<Usuario>).apeMaterno = apeMaterno;
-  }
-
-  public set setApPaterno(apPaterno: string) {
-    (this as Writeable<Usuario>).apPaterno = apPaterno;
-  }
-
-  public set setApMaterno(apMaterno: string) {
-    (this as Writeable<Usuario>).apMaterno = apMaterno;
   }
 
   public set setCorreoEletronico(correoElectronico: string) {

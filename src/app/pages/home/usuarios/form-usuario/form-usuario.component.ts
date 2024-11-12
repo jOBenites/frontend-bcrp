@@ -103,8 +103,8 @@ export class FormUsuarioComponent implements AfterViewInit {
         data.setTipoDocumento = this.formGroup.get('tipoDocumento')?.value;
         data.setNumeroDocumento = this.formGroup.get('numeroDocumento')?.value;
         data.setNombres = this.formGroup.get('nombres')?.value;
-        data.setApPaterno = this.formGroup.get('apePaterno')?.value;
-        data.setApMaterno = this.formGroup.get('apeMaterno')?.value;
+        data.setApePaterno = this.formGroup.get('apePaterno')?.value;
+        data.setApeMaterno = this.formGroup.get('apeMaterno')?.value;
         data.setCorreoEletronico = this.formGroup.get('correoElectronico')?.value;
         data.setAmbito = this.formGroup.get('ambito')?.value;
         this.update(data);
@@ -121,8 +121,11 @@ export class FormUsuarioComponent implements AfterViewInit {
         this.location.back();
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }
@@ -136,8 +139,11 @@ export class FormUsuarioComponent implements AfterViewInit {
         this.location.back();
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }

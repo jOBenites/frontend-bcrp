@@ -55,7 +55,7 @@ public formGroup: FormGroup;
       idDocumento: [''],
       numeroDocumento: [''],
       ambito: [''],
-      idSistema: ['', Validators.required],
+      idSistema: [''],
       nombres: ['']
     });
   }

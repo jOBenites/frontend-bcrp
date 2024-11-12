@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { AuthResponse } from '../interfaces/auth.interface';
@@ -23,13 +23,13 @@ export class AuthService {
     readonly router: Router
   ) { }
 
-
   isAuthenticated(): boolean {
     return !this.jwtHelper.isTokenExpired();
   }
 
+
   public signIn(data: Auth): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(this.baseUrl + '/login', data, this.CONTEXT);
+    return this.http.post<AuthResponse>(this.baseUrl + '/oauth/login', data, this.CONTEXT);
   }
 
   public logout(){
@@ -38,7 +38,7 @@ export class AuthService {
       return of();
     }
 
-    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/logout?refreshToken=${refresh_token}`, {}, this.CONTEXT).pipe(
+    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/logout?refreshToken=${refresh_token}`, {}).pipe(
        catchError(() => of()),
        tap(data => this.sessionService.clearTokens())
     );
@@ -50,7 +50,7 @@ export class AuthService {
       return of();
     }
     return this.http.post<AuthResponse>(
-      `${this.baseUrl}/oauth/refreshToken`, {refresh_token}, this.CONTEXT)
+      `${this.baseUrl}/oauth/refreshToken`, {refresh_token})
       .pipe(
         catchError(() => {
           this.sessionService.clearTokens();
@@ -66,6 +66,10 @@ export class AuthService {
 
   public getCaptcha(): Observable<ICaptcha> {
     return this.http.get<ICaptcha>(this.baseUrl + '/oauth/captcha', this.CONTEXT);
+  }
+
+  getJSessionId() {
+    return this.http.get<ICaptcha>(this.baseUrl + '/oauth/captcha/token', this.CONTEXT);
   }
 
   public storeTokens(data: AuthResponse) {

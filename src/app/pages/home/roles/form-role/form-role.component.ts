@@ -98,8 +98,11 @@ export class FormRoleComponent implements OnInit {
         this.router.navigateByUrl('/home/roles');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }
@@ -114,8 +117,11 @@ export class FormRoleComponent implements OnInit {
         this.router.navigateByUrl('/home/roles');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }

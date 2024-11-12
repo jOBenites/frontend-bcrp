@@ -93,12 +93,14 @@ export class FormEntidadComponent implements OnInit {
       next: res => {
         console.log(res);
         this.openSnackBar(res.message, '✓', 'success-snackbar');
-        // this.location.back();
         this.router.navigateByUrl('/home/entidades');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }
@@ -113,8 +115,11 @@ export class FormEntidadComponent implements OnInit {
         this.router.navigateByUrl('/home/entidades');
       },
       error: err => {
-        console.log(err);
-        this.openSnackBar(err.message, '✗', 'error-snackbar');
+        if(err.error.message) {
+          this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+        } else {
+          this.openSnackBar(err.message, '✗', 'error-snackbar');
+        }
       }
     });
   }

@@ -10,6 +10,9 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { SessionService } from './services/session.service';
 import { authInterceptor } from './services/auth.interceptor';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { environment } from '../environments/environment';
+
+const baseUrl = environment.apiRest;
 
 export function tokenGetter() {
   return new SessionService().getToken();
@@ -30,10 +33,10 @@ export const appConfig: ApplicationConfig = {
                 tokenGetter: tokenGetter,
                 allowedDomains: ["localhost:8081"],
                 disallowedRoutes: [
-                  "http://localhost:8081/api/v1/login",
-                  "http://localhost:8081/api/v1/oauth/refreshToken",
-                  "http://localhost:8081/api/v1/oauth/logout",
-                  "http://localhost:8081/api/v1/oauth/captcha"
+                  `${baseUrl}/oauth/login`,
+                  `${baseUrl}/oauth/refreshToken`,
+                  `${baseUrl}/oauth/logout`,
+                  `${baseUrl}/oauth/captcha`
                 ],
             },
         }),

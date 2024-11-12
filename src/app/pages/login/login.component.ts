@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       captchaText: ['', Validators.required]
     });
 
-    this.captcha = {captchaImage: '', hiddenCaptcha: ''};
+    this.captcha = {captchaImage: '', hiddenCaptcha: '', tokenUuid: ''};
   }
 
   ngOnInit(): void {
@@ -55,25 +55,24 @@ export class LoginComponent implements OnInit {
         usuario.setPassword = this.formGroup.get('password')?.value;
         usuario.setCaptcha = this.formGroup.get('captchaText')?.value;
         usuario.setHiddenCaptcha = this.captcha.hiddenCaptcha;
+        usuario.setTokenUuid = this.captcha.tokenUuid;
 
-        if(usuario.captcha === usuario.hiddenCaptcha) {
-          this.showSpinner = true;
-          this.authService.signIn(usuario)
-          .subscribe({ next: value => {
-            this.showSpinner = false;
-            this.sessionService.setUser(value.nombre);
-            this.sessionService.setToken(value.token);
-            this.sessionService.setRefreshToken(value.refreshToken);
-            this.router.navigate(['portal']);
-          }, error: err => {
-            this.showSpinner = false;
-            console.log(err);
-            this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
-          } });
-        } else {
-          this.formGroup.get('captchaText')?.setErrors({invalid: true, message: 'El texto ingresado es incorrecto'})
-          this.openSnackBar('El texto ingresado es incorrecto', '✗', 'error-snackbar');
-        }
+        this.showSpinner = true;
+        this.authService.signIn(usuario)
+        .subscribe({ next: value => {
+          this.showSpinner = false;
+          this.sessionService.setUser(value.nombre);
+          this.sessionService.setToken(value.token);
+          this.sessionService.setRefreshToken(value.refreshToken);
+          this.router.navigate(['portal']);
+        }, error: err => {
+          console.log(err);
+          this.showSpinner = false;
+          this.showCaptcha();
+          this.formGroup.get('captchaText')?.setErrors({invalid: true, message: err.error.mensaje})
+          this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
+        } });
+        
     }
   }
 
@@ -81,12 +80,13 @@ export class LoginComponent implements OnInit {
     this.authService.getCaptcha()
     .subscribe({ next: value => {
         this.showSpinner = false;
-        // console.log(value);
         let captchaBase64 = value.captchaImage;
         this.captcha = {
           captchaImage: 'data:image/jpg;base64,' + (this.sanitizer.bypassSecurityTrustResourceUrl(captchaBase64) as any).changingThisBreaksApplicationSecurity,
-          hiddenCaptcha: value.hiddenCaptcha
+          hiddenCaptcha: value.hiddenCaptcha,
+          tokenUuid: value.tokenUuid
         }
+        // localStorage.setItem('JSESSIONID', value.tokenUuid);
       }, error: err => {
         console.log(err);
         this.showSpinner = false;
