@@ -58,7 +58,6 @@ export class FormRoleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSistemas();
-    // this.formGroup.controls['codExterno'].disable();
   }
 
   getSistemas(){

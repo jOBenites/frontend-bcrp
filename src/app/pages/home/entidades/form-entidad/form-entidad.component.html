@@ -15,12 +15,18 @@
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of documentos" [value]="item.idDocumentoIdentidad.toString()">{{item.tipoDocumentoIdentidad}}</mat-option>
                   </mat-select>
+                  @if (formGroup.get('idDocumento')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field class="w-100">
                   <mat-label>Número de documento</mat-label>
                   <input matInput name="numeroDocumento" formControlName="numeroDocumento" placeholder="Ingrese el número de documento">
+                  @if (formGroup.get('numeroDocumento')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
             </div>
@@ -29,6 +35,9 @@
                 <mat-form-field class="w-100">
                   <mat-label>Entidad</mat-label>
                   <input matInput name="nombre" formControlName="nombre" placeholder="Ingresa la entidad">
+                  @if (formGroup.get('nombre')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
             </div>
@@ -37,6 +46,9 @@
                 <mat-form-field class="w-100">
                   <mat-label>Sigla</mat-label>
                   <input matInput name="sigla" formControlName="sigla" placeholder="Ingresa la Sigla">
+                  @if (formGroup.get('sigla')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
             </div>
@@ -46,6 +58,9 @@
                   <mat-label>Código externo</mat-label>
                   <input matInput name="codExterno" formControlName="codExterno"
                     placeholder="El código externo es autogenerado">
+                    @if (formGroup.get('codExterno')?.invalid) {
+                    <mat-error>Campo requerido</mat-error>
+                    }
                 </mat-form-field>
               </div>
             </div>

@@ -16,10 +16,12 @@ import { FormOpcionComponent } from './pages/home/opciones/form-opcion/form-opci
 import { RolesComponent } from './pages/home/roles/roles.component';
 import { FormRoleComponent } from './pages/home/roles/form-role/form-role.component';
 import { FormUsuarioComponent } from './pages/home/usuarios/form-usuario/form-usuario.component';
+import { AuthGuard } from './services/auth.guard';
 
 export const routes: Routes = [
   { path: 'home', 
     component: HomeComponent, 
+    canActivate: [AuthGuard],
     children: [
     { path: 'usuarios', component: UsuariosComponent },
     { path: 'usuarios/nuevo-usuario', component: FormUsuarioComponent },
@@ -36,7 +38,7 @@ export const routes: Routes = [
     { path: 'roles', component: RolesComponent },
     { path: 'roles/nuevo-rol', component: FormRoleComponent },
   ] },
-  { path: 'portal', component: DashboardComponent },
+  { path: 'portal', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

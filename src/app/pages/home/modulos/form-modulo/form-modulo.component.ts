@@ -9,7 +9,6 @@ import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
-import { Entidad } from '../../../../models/entidad.model';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
 import { ModuloService } from '../../../../services/modulo.service';

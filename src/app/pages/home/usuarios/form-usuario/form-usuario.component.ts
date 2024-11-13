@@ -4,14 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgFor } from "@angular/common";
-import { SistemaService } from '../../../../services/sistema.service';
 import { RouterModule, ActivatedRoute} from '@angular/router';
-import { Persona } from '../../../../interfaces/persona.interface';
-import { Estado } from '../../../../interfaces/estado.interface';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { EntidadService } from '../../../../services/entidad.service';
 import { Documento } from '../../../../interfaces/documento.interface';
@@ -54,10 +51,10 @@ export class FormUsuarioComponent implements AfterViewInit {
         numeroDocumento: [params['numeroDocumento'] != null ? params['numeroDocumento'] : '', Validators.required],
         nombres: [params['nombres'] != null ? params['nombres'] : '', Validators.required],
         apePaterno: [params['apellidoPaterno'] != null ? params['apellidoPaterno'] : '', Validators.required],
-        apeMaterno: [params['apellidoMaterno'] != null ? params['apellidoMaterno'] : ''],
-        correoElectronico: [params['correoElectronico'] != null ? params['correoElectronico'] : ''],
-        ambito: [params['ambito'] != null ? params['ambito'] : ''],
-        sustento: ['']
+        apeMaterno: [params['apellidoMaterno'] != null ? params['apellidoMaterno'] : '', Validators.required],
+        correoElectronico: [params['correoElectronico'] != null ? params['correoElectronico'] : '', Validators.required],
+        ambito: [params['ambito'] != null ? params['ambito'] : '', Validators.required],
+        sustento: ['', Validators.required]
       });
   }
 

@@ -50,12 +50,12 @@ export class FormSistemaComponent implements AfterViewInit {
         version: [params['version'] != null ? params['version'] : '', Validators.required],
         url: [params['url'] != null ? params['url'] : '', Validators.required],
         urlExterno: [params['urlExterno'] != null ? params['urlExterno'] : '', Validators.required],
-        logoHead: [params['logoHead'] != null ? params['logoHead'] : ''],
-        logoMain: [params['logoMain'] != null ? params['logoMain'] : ''],
-        usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : ''],
-        usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : ''],
-        idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : ''],
-        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '']
+        logoHead: [params['logoHead'] != null ? params['logoHead'] : '', Validators.required],
+        logoMain: [params['logoMain'] != null ? params['logoMain'] : '', Validators.required],
+        usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : '', Validators.required],
+        usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : '', Validators.required],
+        idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : '', Validators.required],
+        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '', Validators.required]
       });
   }
 

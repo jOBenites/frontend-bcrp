@@ -7,13 +7,14 @@ import { SessionService } from './session.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private session: SessionService) { }
+  constructor(private readonly router: Router, 
+    private readonly session: SessionService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const user = this.session.getUser();
-    if (user) {
+    const token = this.session.getToken();
+    if (token) {
       return true;
     } else {
       this.router.navigate(['/login']);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,7 +19,6 @@ import { Entidad } from '../../../models/entidad.model';
 import { DialogConfirmationComponent } from '../../../components/dialog-confirmation/dialog-confirmation.component';
 import { Sistema } from '../../../models/sistema.model';
 import { SistemaService } from '../../../services/sistema.service';
-import { DataSourceSistema } from '../../../interfaces/datasource-sistema.interface';
 import { RoleService } from '../../../services/role.service';
 import { Role } from '../../../models/role.model';
 

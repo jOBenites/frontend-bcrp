@@ -17,6 +17,9 @@
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of documentos" [value]="item.idDocumentoIdentidad.toString()">{{item.tipoDocumentoIdentidad}}</mat-option>
                   </mat-select>
+                  @if (formGroup.get('tipoDocumento')?.invalid) {
+                    <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
               <div class="col-md-6">
@@ -24,7 +27,7 @@
                   <mat-label>Número documento</mat-label>
                   <input matInput name="numeroDocumento" formControlName="numeroDocumento" placeholder="Ingresa el N° de documento">
                   @if (formGroup.get('numeroDocumento')?.invalid) {
-                  <mat-error>Campo requerido</mat-error>
+                    <mat-error>Campo requerido</mat-error>
                   }
                 </mat-form-field>
               </div>
@@ -80,6 +83,9 @@
                     <mat-option value="INTERNO">Interno</mat-option>
                     <mat-option value="EXTERNO">Externo</mat-option>
                   </mat-select>
+                  @if (formGroup.get('ambito')?.invalid) {
+                  <mat-error>Campo requerido</mat-error>
+                  }
                 </mat-form-field>
               </div>
               @if (showSustento) {
@@ -89,6 +95,9 @@
                     <input matInput type="text" placeholder="Seleccionar el archivo" formControlName="sustento"
                       [value]="fileInputOne.files![0]?.name">
                     <mat-icon matSuffix>folder_open</mat-icon>
+                    @if (formGroup.get('sustento')?.invalid) {
+                    <mat-error>El archivo sustento es requerido</mat-error>
+                    }
                   </mat-form-field>
                   <input #fileInputOne type="file" (change)="onFileChanged($event)"
                     accept=".jpg,.png,.gif,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx" style="display:none;" />
