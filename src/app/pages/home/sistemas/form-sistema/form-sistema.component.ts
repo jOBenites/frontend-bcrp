@@ -38,7 +38,9 @@ export class FormSistemaComponent implements AfterViewInit {
       if(params['idSistema'] != null){
         this.titulo = 'Editar Sistema' 
         this.buttonTitle = 'Actualizar';
-      } else{
+        this.responsableMain = params['usuarioResponsable'];
+        this.responsableAlt = params['usuarioResponsableAlterno'];
+      } else {
         this.titulo = 'Nuevo sistema';
         this.buttonTitle = 'Registrar';
       }
