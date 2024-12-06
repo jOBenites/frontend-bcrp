@@ -17,29 +17,39 @@ import { RolesComponent } from './pages/home/roles/roles.component';
 import { FormRoleComponent } from './pages/home/roles/form-role/form-role.component';
 import { FormUsuarioComponent } from './pages/home/usuarios/form-usuario/form-usuario.component';
 import { AuthGuard } from './services/auth.guard';
+import { MfaComponent } from './pages/login/mfa/mfa.component';
+import { SignInComponent } from './pages/login/sign-in/sign-in.component';
 
 export const routes: Routes = [
   { path: 'home', 
     component: HomeComponent, 
     canActivate: [AuthGuard],
     children: [
-    { path: 'usuarios', component: UsuariosComponent },
-    { path: 'usuarios/nuevo-usuario', component: FormUsuarioComponent },
-    { path: 'sistemas', component: SistemasComponent },
-    { path: 'sistemas/formulario', component: FormSistemaComponent },
-    { path: 'entidades', component: EntidadesComponent },
-    { path: 'entidades/nueva-entidad', component: FormEntidadComponent },
-    { path: 'modulos', component: ModulosComponent },
-    { path: 'modulos/nuevo-modulo', component: FormModuloComponent },
-    { path: 'opciones', component: OpcionesComponent },
-    { path: 'opciones/nueva-opcion', component: FormOpcionComponent },
-    { path: 'perfiles', component: PerfilesComponent },
-    { path: 'perfiles/nuevo-perfil', component: FormPerfilComponent },
-    { path: 'roles', component: RolesComponent },
-    { path: 'roles/nuevo-rol', component: FormRoleComponent },
-  ] },
+      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'usuarios/nuevo-usuario', component: FormUsuarioComponent },
+      { path: 'sistemas', component: SistemasComponent },
+      { path: 'sistemas/formulario', component: FormSistemaComponent },
+      { path: 'entidades', component: EntidadesComponent },
+      { path: 'entidades/nueva-entidad', component: FormEntidadComponent },
+      { path: 'modulos', component: ModulosComponent },
+      { path: 'modulos/nuevo-modulo', component: FormModuloComponent },
+      { path: 'opciones', component: OpcionesComponent },
+      { path: 'opciones/nueva-opcion', component: FormOpcionComponent },
+      { path: 'perfiles', component: PerfilesComponent },
+      { path: 'perfiles/nuevo-perfil', component: FormPerfilComponent },
+      { path: 'roles', component: RolesComponent },
+      { path: 'roles/nuevo-rol', component: FormRoleComponent },
+    ] 
+  },
   { path: 'portal', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: 'login', 
+    component: LoginComponent,
+    children: [
+      { path: 'sign-in', component: SignInComponent },
+      { path: 'mfa', component: MfaComponent },
+      { path: '', redirectTo: 'sign-in', pathMatch: 'full' }
+    ]
+  },
+  { path: '', redirectTo: 'login/sign-in', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login/sign-in' }
 ];

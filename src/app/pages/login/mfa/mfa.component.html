@@ -1,0 +1,36 @@
+<mat-card class="example-card" appearance="outlined">
+    <form [formGroup]="formGroup" (submit)="verificar()">
+    <mat-card-header class="text-center justify-content-center">
+        <mat-card-title>
+        <h1 class="title-main">Verificación con código de autenticación</h1>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="text-center justify-content-center">
+   
+    <div class="d-flex justify-content-center align-items-center">
+        <button mat-icon-button aria-label="user-icon">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <h3 class="font-weight-bold pt-3">Hola, {{formGroup.get('name')?.value}}</h3>
+    </div>
+
+    <p>Se envío un código al correo electrónico asociado a su cuenta</p>
+    <br>
+    <mat-form-field class="w-100" appearance="outline">
+        <input matInput name="otp" formControlName="otp" placeholder="Ingresar código">
+        <mat-error>
+            @if (formGroup.get('otp')?.hasError('required')) {
+                Campo requerido
+            } @else if (formGroup.get('otp')?.hasError('invalid')) {
+                {{formGroup.get('otp')?.getError('message')}}
+            }
+        </mat-error>
+    </mat-form-field>
+ 
+    </mat-card-content>
+    <mat-card-footer class="d-flex flex-column justify-content-center example-card-footer">
+        <button mat-flat-button type="submit" class="btn-custom-accent w-100">Verificar</button>
+    </mat-card-footer>
+    </form>
+    
+</mat-card>

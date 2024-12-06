@@ -14,6 +14,7 @@ export interface Autenticacion {
   scope: string;
   sid: string;
   email_verified: boolean;
+  name: string;
   preferred_username: string;
   given_name: string;
   family_name: string;

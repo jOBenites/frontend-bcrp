@@ -9,6 +9,8 @@ import { IS_PUBLIC } from './auth.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { ICaptcha } from '../interfaces/captcha.interface';
+import { Mfa } from '../models/mfa.model';
+import { MfaResponse } from '../interfaces/mfa-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -68,9 +70,10 @@ export class AuthService {
     return this.http.get<ICaptcha>(this.baseUrl + '/oauth/captcha', this.CONTEXT);
   }
 
-  getJSessionId() {
-    return this.http.get<ICaptcha>(this.baseUrl + '/oauth/captcha/token', this.CONTEXT);
+  public verifyOtp(data: Mfa): Observable<MfaResponse> {
+    return this.http.post<MfaResponse>(this.baseUrl + '/oauth/verify-otp', data, this.CONTEXT);
   }
+  
 
   public storeTokens(data: AuthResponse) {
     this.sessionService.setToken(data.access_token);

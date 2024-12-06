@@ -9,10 +9,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const spinnerSvc = inject(SpinnerObserverService);
 
   if (req.context.get(IS_PUBLIC)) {
-    // let headers = new HttpHeaders();
-    //    headers = headers.set("Access-Control-Allow-Origin", "http://localhost:4200");
+    spinnerSvc.showSpinner();
     const clonedRequest = req.clone( { withCredentials: true } );
-    return next(clonedRequest);
+    return next(clonedRequest).pipe(
+      finalize(() => {
+        spinnerSvc.hideSpinner();
+      }) );
   }
 
   if (authSvc.isAuthenticated()) {

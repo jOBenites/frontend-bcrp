@@ -6,24 +6,6 @@
   height: 100%;
 }
 
-.example-card {
-  max-width: 360px;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-}
-.example-card-footer {
-  padding: 16px;
-}
-
-.title-main {
-  color: $primary !important;
-  font-family: AlfaSlabOne, serif;
-}
-.text-title {
-  color: $primary !important;
-}
-
 /* Absolute Center Spinner */
 .loading-indicator {
   position: fixed;
