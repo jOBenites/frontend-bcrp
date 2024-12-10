@@ -5,7 +5,7 @@ export class Modulo {
   readonly idModulo: number;
   readonly idSistema: string;
   readonly nombreModulo: string;
-
+  readonly estado: string;
 
   public set setIdModulo(idModulo: number) {
     (this as Writeable<Modulo>).idModulo = idModulo;
@@ -17,6 +17,9 @@ export class Modulo {
 
   public set setNombreModulo(nombreModulo: string) {
     (this as Writeable<Modulo>).nombreModulo = nombreModulo;
+  }
+  public set setEstado(estado: string){
+    (this as Writeable<Modulo>).estado = estado;
   }
   
 }

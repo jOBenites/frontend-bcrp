@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { EntidadService } from '../../../../services/entidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,7 +23,7 @@ import { Role } from '../../../../models/role.model';
   selector: 'app-form-perfil',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule,
-    MatButtonModule, NgFor
+    MatButtonModule, MatRadioModule, NgFor
   ],
   templateUrl: './form-perfil.component.html',
   styleUrl: './form-perfil.component.scss'
@@ -60,7 +61,8 @@ export class FormPerfilComponent implements OnInit {
       idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
       idEntidad: [params['idEntidad'] != null ? params['idEntidad'] : '', Validators.required],
       idRol: [params['idRol'] != null ? params['idRol'] : '', Validators.required],
-      nombre: [params['nombrePerfil'] != null ? params['nombrePerfil'] : '', Validators.required]
+      nombre: [params['nombrePerfil'] != null ? params['nombrePerfil'] : '', Validators.required],
+      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
     });
   }
 
@@ -119,7 +121,9 @@ export class FormPerfilComponent implements OnInit {
       data.setIdSistema = this.formGroup.get('idSistema')?.value; 
       data.setIdEntidad = this.formGroup.get('idEntidad')?.value; 
       data.setIdRol = this.formGroup.get('idRol')?.value; 
-      data.setNombrePerfil = this.formGroup.get('nombre')?.value; 
+      data.setNombrePerfil = this.formGroup.get('nombre')?.value;
+      data.setEstado = this.formGroup.get('estado')?.value;
+      
       if(this.formGroup.get('idPerfil')?.value == 0){
         this.insert(data);
       } else {

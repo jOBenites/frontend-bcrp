@@ -61,11 +61,11 @@ export class MfaComponent implements OnInit {
           this.router.navigate(['portal']);
         }, error: err => {
           console.log(err);
-          if(err.error.message) {
+          if(err.error.mensaje) {
             this.formGroup.get('otp')?.setErrors({invalid: true, message: err.error.mensaje});
-            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
+            this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
           } else {
-            this.formGroup.get('otp')?.setErrors({invalid: true, message: err.mensaje});
+            this.formGroup.get('otp')?.setErrors({invalid: true, message: err.message});
             this.openSnackBar(err.message, '✗', 'error-snackbar');
           }
         } });

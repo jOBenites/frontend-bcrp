@@ -27,8 +27,8 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-spinner/animations/cube-transition.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/global-styles.scss"
             ],
             "scripts": [
@@ -97,8 +97,8 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-spinner/animations/cube-transition.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/global-styles.scss"
             ],
             "scripts": [

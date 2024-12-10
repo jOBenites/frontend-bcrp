@@ -7,6 +7,7 @@ export class Perfil {
   readonly idEntidad: number;
   readonly idRol: number;
   readonly nombrePerfil: string;
+  readonly estado: string;
 
   public set setIdPerfil(idPerfil: number) {
     (this as Writeable<Perfil>).idPerfil = idPerfil;
@@ -26,6 +27,10 @@ export class Perfil {
 
   public set setNombrePerfil(nombrePerfil: string) {
     (this as Writeable<Perfil>).nombrePerfil = nombrePerfil;
+  }
+
+  public set setEstado(estado: string){
+    (this as Writeable<Perfil>).estado = estado;
   }
   
 }

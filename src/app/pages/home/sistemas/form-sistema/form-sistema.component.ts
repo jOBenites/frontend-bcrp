@@ -12,11 +12,13 @@ import { SistemaService } from '../../../../services/sistema.service';
 import { RouterModule, ActivatedRoute} from '@angular/router';
 import { Persona } from '../../../../interfaces/persona.interface';
 import { Estado } from '../../../../interfaces/estado.interface';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-form-sistema',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule, MatButtonModule, MatIconModule, NgFor],
+  imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule, 
+    MatButtonModule, MatIconModule, MatRadioModule, NgFor],
   templateUrl: './form-sistema.component.html',
   styleUrl: './form-sistema.component.scss'
 })
@@ -57,7 +59,8 @@ export class FormSistemaComponent implements AfterViewInit {
         usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : '', Validators.required],
         usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : '', Validators.required],
         idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : '', Validators.required],
-        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '', Validators.required]
+        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '', Validators.required],
+        estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
       });
   }
 
@@ -108,6 +111,7 @@ export class FormSistemaComponent implements AfterViewInit {
       formData.append("usuarioResponsableAlt", this.responsableAlt);
       formData.append("idEstadoCritico", this.formGroup.get('idEstadoCritico')?.value);
       formData.append("unidOrganizacional", this.formGroup.get('unidOrganizacional')?.value);
+      formData.append("estado", this.formGroup.get('estado')?.value);
 
       let fileLogoHead = this.formGroup.get('logoHead')?.value;
       if (fileLogoHead instanceof File) {

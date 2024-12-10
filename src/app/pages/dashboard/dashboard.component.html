@@ -7,11 +7,11 @@
       <br><br>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button *ngFor="let sistema of sistemas; index as i" type="button" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [ngClass]="{'active': i === 0}"></button>
         </div>
         <div class="carousel-inner">
 
-          <div *ngFor="let sistema of sistemas; index as i" [ngClass]="{'carousel-item active': i == 0, 'carousel-item': i != 0}">
+          <div *ngFor="let sistema of sistemas; index as i" class="carousel-item" [ngClass]="{'active': i === 0}">
             <div class="row align-items-center justify-content-center">
                 <mat-card *ngFor="let fila of sistema.grupo" class="custom-card space">
                   <img style="max-width: 140px;" mat-card-image [src]="('img2' | loadPicture: 'png')" alt="img1">
@@ -23,7 +23,6 @@
                   </mat-card-actions>
                 </mat-card>
             </div>
-
           </div>
 
         </div>

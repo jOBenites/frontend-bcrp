@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { EntidadService } from '../../../../services/entidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +17,7 @@ import { Entidad } from '../../../../models/entidad.model';
   selector: 'app-form-entidad',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule,
-    MatButtonModule, NgFor
+    MatButtonModule, MatRadioModule, NgFor
   ],
   templateUrl: './form-entidad.component.html',
   styleUrl: './form-entidad.component.scss'
@@ -48,7 +49,8 @@ export class FormEntidadComponent implements OnInit {
       numeroDocumento: [params['numeroDocumento'] != null ? params['numeroDocumento'] : '', Validators.required],
       nombre: [params['nombre'] != null ? params['nombre'] : '', Validators.required],
       sigla: [params['sigla'] != null ? params['sigla'] : '', Validators.required],
-      codExterno: [params['codExterno'] != null ? params['codExterno'] : '', Validators.required]
+      codExterno: [params['codExterno'] != null ? params['codExterno'] : '', Validators.required],
+      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
     });
   }
 
@@ -78,6 +80,8 @@ export class FormEntidadComponent implements OnInit {
       data.setNombre = this.formGroup.get('nombre')?.value; 
       data.setSigla = this.formGroup.get('sigla')?.value; 
       data.setCodExterno = this.formGroup.get('codExterno')?.value; 
+      data.setEstado = this.formGroup.get('estado')?.value;
+
       if(this.formGroup.get('idEntidad')?.value == 0){
         this.insert(data);
       } else {

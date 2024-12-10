@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -18,7 +19,7 @@ import { Modulo } from '../../../../models/modulo.model';
   selector: 'app-form-modulo',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule,
-    MatButtonModule, NgFor
+    MatButtonModule, MatRadioModule, NgFor
   ],
   templateUrl: './form-modulo.component.html',
   styleUrl: './form-modulo.component.scss'
@@ -53,7 +54,8 @@ export class FormModuloComponent implements OnInit {
     this.formGroup = this.fb.group({
       idModulo: [idModulo],
       idSistema: [idSistema, Validators.required],
-      nombre: [nombre, Validators.required]
+      nombre: [nombre, Validators.required],
+      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
     });
   }
 
@@ -79,8 +81,9 @@ export class FormModuloComponent implements OnInit {
     if(this.formGroup.valid) {
       let data = new Modulo();
       data.setIdSistema = this.formGroup.get('idSistema')?.value; 
-      data.setNombreModulo = this.formGroup.get('nombre')?.value; 
-      console.log(data);
+      data.setNombreModulo = this.formGroup.get('nombre')?.value;
+      data.setEstado = this.formGroup.get('estado')?.value;
+      
       if(this.formGroup.get('idModulo')?.value == 0){
         this.insert(data);
       } else {

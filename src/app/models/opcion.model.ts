@@ -7,6 +7,7 @@ export class Opcion {
   readonly idSistema: string;
   readonly nombreOpcion: string;
   readonly url: string;
+  readonly estado: string;
 
   public set setIdOpcion(idOpcion: number) {
     (this as Writeable<Opcion>).idOpcion = idOpcion;
@@ -26,6 +27,10 @@ export class Opcion {
 
   public set setUrl(url: string) {
     (this as Writeable<Opcion>).url = url;
+  }
+
+  public set setEstado(estado: string){
+    (this as Writeable<Opcion>).estado = estado;
   }
   
 }

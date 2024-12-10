@@ -5,12 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
-import { EntidadService } from '../../../../services/entidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
-import { Entidad } from '../../../../models/entidad.model';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
 import { Role } from '../../../../models/role.model';
@@ -20,7 +19,7 @@ import { RoleService } from '../../../../services/role.service';
   selector: 'app-form-role',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule,
-    MatButtonModule, NgFor
+    MatButtonModule, MatRadioModule, NgFor
   ],
   templateUrl: './form-role.component.html',
   styleUrl: './form-role.component.scss'
@@ -52,7 +51,8 @@ export class FormRoleComponent implements OnInit {
     this.formGroup = this.fb.group({
       idRol: [params['idRol'] != null ? params['idRol'] : 0],
       idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
-      nombre: [params['nombreRol'] != null ? params['nombreRol'] : '', Validators.required]
+      nombre: [params['nombreRol'] != null ? params['nombreRol'] : '', Validators.required],
+      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
     });
   }
 
@@ -78,7 +78,9 @@ export class FormRoleComponent implements OnInit {
     if(this.formGroup.valid) {
       let data = new Role();
       data.setIdSistema = this.formGroup.get('idSistema')?.value; 
-      data.setNombreRol = this.formGroup.get('nombre')?.value; 
+      data.setNombreRol = this.formGroup.get('nombre')?.value;
+      data.setEstado = this.formGroup.get('estado')?.value;
+
       if(this.formGroup.get('idRol')?.value == 0){
         this.insert(data);
       } else {

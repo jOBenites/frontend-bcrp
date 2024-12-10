@@ -8,6 +8,7 @@ export class Entidad {
   readonly nombre: string;
   readonly sigla: string;
   readonly codExterno: string;
+  readonly estado: string;
 
   public set setIdentidad(idEntidad: number){
     (this as Writeable<Entidad>).idEntidad = idEntidad;
@@ -26,6 +27,9 @@ export class Entidad {
   }
   public set setCodExterno(codExterno: string){
     (this as Writeable<Entidad>).codExterno = codExterno;
+  }
+  public set setEstado(estado: string){
+    (this as Writeable<Entidad>).estado = estado;
   }
   
 }

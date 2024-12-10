@@ -9,7 +9,7 @@ export class Sistema {
   readonly logoMain: string; 
   readonly logoHead: string;
   readonly url: string;
-
+  readonly estado: string;
 
   public set setIdSistema(idSistema: number) {
     (this as Writeable<Sistema>).idSistema = idSistema;
@@ -31,6 +31,9 @@ export class Sistema {
   }
   public set setUrl(value: string) {
     (this as Writeable<Sistema>).url = value;
+  }
+  public set setEstado(estado: string){
+    (this as Writeable<Sistema>).estado = estado;
   }
   
 }

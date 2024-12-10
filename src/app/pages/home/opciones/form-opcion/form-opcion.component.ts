@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -20,7 +21,7 @@ import { Opcion } from '../../../../models/opcion.model';
   selector: 'app-form-opcion',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule,
-    MatButtonModule, NgFor
+    MatButtonModule, MatRadioModule, NgFor
   ],
   templateUrl: './form-opcion.component.html',
   styleUrl: './form-opcion.component.scss'
@@ -56,7 +57,8 @@ export class FormOpcionComponent implements OnInit {
       idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
       idModulo: [params['idModulo'] != null ? params['idModulo'] : '', Validators.required],
       nombre: [params['nombreOpcion'] != null ? params['nombreOpcion'] : '', Validators.required],
-      link: [params['url'] != null ? params['url'] : '']
+      link: [params['url'] != null ? params['url'] : ''],
+      estado: [params['estado'] != null ? params['estado'] : 1, Validators.required]
     });
   }
 
@@ -99,7 +101,9 @@ export class FormOpcionComponent implements OnInit {
       data.setIdSistema = this.formGroup.get('idSistema')?.value; 
       data.setIdModulo = this.formGroup.get('idModulo')?.value; 
       data.setNombreModulo = this.formGroup.get('nombre')?.value;
-      data.setUrl = this.formGroup.get('link')?.value; 
+      data.setUrl = this.formGroup.get('link')?.value;
+      data.setEstado = this.formGroup.get('estado')?.value;
+      
       if(this.formGroup.get('idOpcion')?.value == 0) {
         this.insert(data);
       } else {
