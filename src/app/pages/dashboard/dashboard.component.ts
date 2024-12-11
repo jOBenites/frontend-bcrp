@@ -35,25 +35,6 @@ export class DashboardComponent {
             imagen: "img3"
           }
         ],
-      },
-      {
-        grupo: [
-          {
-            id: 4,
-            titulo: "Sistema 1",
-            imagen: "img1"
-          },
-          {
-            id: 5,
-            titulo: "Sistema 2",
-            imagen: "img2"
-          },
-          {
-            id: 6,
-            titulo: "Sistema 3",
-            imagen: "img3"
-          }
-        ]
       }
     ];
   }

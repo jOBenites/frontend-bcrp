@@ -5,7 +5,8 @@ import { AuthResponse } from '../interfaces/auth.interface';
 import { Auth } from '../models/auth.model';
 import { environment } from '../../environments/environment';
 import { SessionService } from './session.service';
-import { IS_PUBLIC } from './auth.interceptor';
+// import { IS_PUBLIC } from './auth.interceptor';
+import { IS_PUBLIC } from './token.interceptor';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { ICaptcha } from '../interfaces/captcha.interface';
@@ -51,6 +52,7 @@ export class AuthService {
     if (!refresh_token) {
       return of();
     }
+
     return this.http.post<AuthResponse>(
       `${this.baseUrl}/oauth/refreshToken`, {refresh_token})
       .pipe(
