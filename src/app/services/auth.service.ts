@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of, take, tap } from 'rxjs';
 import { AuthResponse } from '../interfaces/auth.interface';
 import { Auth } from '../models/auth.model';
 import { environment } from '../../environments/environment';
@@ -54,16 +54,26 @@ export class AuthService {
     return this.http.post<AuthResponse>(
       `${this.baseUrl}/oauth/refreshToken`, {refresh_token})
       .pipe(
+        take(1),
+        tap({next: (data: AuthResponse) => {
+          const loginSuccessData = data;
+          this.storeTokens(loginSuccessData);
+        },
+        error: (error) => {
+           console.log(error);
+          }
+        }),
         catchError(() => {
           this.sessionService.clearTokens();
           this.router.navigateByUrl('/login');
           return of()
-        }),
-        tap((data: AuthResponse) => {
-          const loginSuccessData = data;
-          this.storeTokens(loginSuccessData);
         })
       );
+  }
+
+  refreshTokenTwo(): Observable<AuthResponse> {
+    const refresh_token = this.sessionService.getRefreshToken();
+    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/refreshToken`, {refresh_token});
   }
 
   public getCaptcha(): Observable<ICaptcha> {

@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
 import { getDutchPaginatorIntl } from './utils/lenguaje-paginator-intl'
@@ -11,6 +11,7 @@ import { SessionService } from './services/session.service';
 import { authInterceptor } from './services/auth.interceptor';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { environment } from '../environments/environment';
+import { TokensInterceptor } from './services/token.interceptor';
 
 const baseUrl = environment.apiRest;
 
@@ -36,14 +37,16 @@ export const appConfig: ApplicationConfig = {
                   `${baseUrl}/oauth/login`,
                   `${baseUrl}/oauth/refreshToken`,
                   `${baseUrl}/oauth/logout`,
-                  `${baseUrl}/oauth/captcha`
+                  `${baseUrl}/oauth/captcha`,
+                  `${baseUrl}/oauth/verify-otp`
                 ],
             },
         }),
     ),
     provideHttpClient(
       withInterceptorsFromDi(),
-      withInterceptors([authInterceptor])
+      // withInterceptors([authInterceptor]),
     ),
+    { provide: HTTP_INTERCEPTORS, useClass: TokensInterceptor, multi: true }
   ]
 };
