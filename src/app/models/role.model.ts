@@ -2,30 +2,30 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
 export class Role {
 
-  readonly idRol: string;
-  readonly idSistema: string;
-  readonly nombreSistema: string;
-  readonly nombreRol: string;
-  readonly estado: string;
+  readonly roleId: string;
+  readonly systemId: string;
+  readonly systemName: string;
+  readonly roleName: string;
+  readonly state: string;
 
   public set setIdRol(idRol: string) {
-    (this as Writeable<Role>).idRol = idRol;
+    (this as Writeable<Role>).roleId = idRol;
   }
 
   public set setIdSistema(idSistema: string) {
-    (this as Writeable<Role>).idSistema = idSistema;
+    (this as Writeable<Role>).systemId = idSistema;
   }
 
   public set setNombreSistema(nombreSistema: string) {
-    (this as Writeable<Role>).nombreSistema = nombreSistema;
+    (this as Writeable<Role>).systemName = nombreSistema;
   }
 
   public set setNombreRol(nombreRol: string) {
-    (this as Writeable<Role>).nombreRol = nombreRol;
+    (this as Writeable<Role>).roleName = nombreRol;
   }
 
   public set setEstado(estado: string){
-    (this as Writeable<Role>).estado = estado;
+    (this as Writeable<Role>).state = estado;
   }
 
   

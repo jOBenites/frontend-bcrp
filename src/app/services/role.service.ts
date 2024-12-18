@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Entidad } from '../models/entidad.model';
-import { DataSourceEntidad } from '../interfaces/datasource-entidad.interface';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../interfaces/api-response.interface';
 import { Role } from '../models/role.model';
@@ -28,10 +26,10 @@ export class RoleService {
     return this.http.get<DataSourceRole>(this.baseUrl + `/roles?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&idRol=${rol}`);
   }
   public update(data: Role): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + '/rol/'+ data.idRol, data);
+    return this.http.put<ApiResponse>(this.baseUrl + '/rol/'+ data.roleId, data);
   } 
-  public delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + '/rol/' + id);
+  public delete(data: Role): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + '/rol/' + data.roleId);
   }
 
 

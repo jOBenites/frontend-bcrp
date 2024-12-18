@@ -25,13 +25,14 @@ export class EntidadService {
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, nombre: string,
     tipoDoc: string, numDoc: string
   ): Observable<DataSourceEntidad> {
-    return this.http.get<DataSourceEntidad>(this.baseUrl + `/entidades?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&nombre=${nombre}&tipoDocumento=${tipoDoc}&numeroDocumento=${numDoc}`);
+    return this.http.get<DataSourceEntidad>(this.baseUrl + `/entidades?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&name=${nombre}&documentType=${tipoDoc}&documentNumber=${numDoc}`);
   }
   public update(data: Entidad): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + '/entidad/'+ data.idEntidad, data);
+    return this.http.put<ApiResponse>(this.baseUrl + '/entidad/'+ data.entityId, data);
   } 
-  public delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + '/entidad/' + id);
+  public delete(data: Entidad): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + '/entidad/' + data.entityId);
   }
   public obtenerDocumentos(): Observable<Documento[]> {
     return this.http.get<Documento[]>(this.baseUrl + '/entidad/documentos');

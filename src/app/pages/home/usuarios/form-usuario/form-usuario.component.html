@@ -15,7 +15,7 @@
                   <mat-label>Tipo de documento</mat-label>
                   <mat-select name="tipoDocumento" formControlName="tipoDocumento">
                     <mat-option value="">--Seleccionar--</mat-option>
-                    <mat-option *ngFor="let item of documentos" [value]="item.idDocumentoIdentidad.toString()">{{item.tipoDocumentoIdentidad}}</mat-option>
+                    <mat-option *ngFor="let item of documentos" [value]="item.documentIdentityId.toString()">{{item.documentTypeId}}</mat-option>
                   </mat-select>
                   @if (formGroup.get('tipoDocumento')?.invalid) {
                     <mat-error>Campo requerido</mat-error>

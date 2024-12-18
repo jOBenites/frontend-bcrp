@@ -96,14 +96,14 @@ constructor(readonly fb: FormBuilder,
     this.router.navigate(['home/sistemas/formulario', data]);
   }
 
-  delete(data: any) {
+  delete(data: Sistema) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Sistema', message: '¿Está seguro de eliminar el sistema?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.sistemaService.delete(data.idSistema)
+        this.sistemaService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);

@@ -2,24 +2,24 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
 export class Modulo {
   
-  readonly idModulo: number;
-  readonly idSistema: string;
-  readonly nombreModulo: string;
-  readonly estado: string;
+  readonly moduleId: number;
+  readonly systemId: string;
+  readonly moduleName: string;
+  readonly state: string;
 
   public set setIdModulo(idModulo: number) {
-    (this as Writeable<Modulo>).idModulo = idModulo;
+    (this as Writeable<Modulo>).moduleId = idModulo;
   }
 
   public set setIdSistema(idSistema: string) {
-    (this as Writeable<Modulo>).idSistema = idSistema;
+    (this as Writeable<Modulo>).systemId = idSistema;
   }
 
   public set setNombreModulo(nombreModulo: string) {
-    (this as Writeable<Modulo>).nombreModulo = nombreModulo;
+    (this as Writeable<Modulo>).moduleName = nombreModulo;
   }
   public set setEstado(estado: string){
-    (this as Writeable<Modulo>).estado = estado;
+    (this as Writeable<Modulo>).state = estado;
   }
   
 }

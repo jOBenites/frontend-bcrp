@@ -27,10 +27,10 @@ export class UsuarioService {
     return this.http.get<DataSourceUsuario>(this.baseUrl + `/usuarios?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&tipoDocumento=${tipoDocumento}&numeroDocumento=${numeroDocumento}&ambito=${ambito}&nombres=${nombres}`);
   }
   public update(data: Usuario): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + `/usuario/${data.idUsuario}`, data);
+    return this.http.put<ApiResponse>(this.baseUrl + `/usuario/${data.userId}`, data);
   } 
-  public delete(id: number): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + `/usuario/${id}/inhabilitar`, {});
+  public delete(data: Usuario): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(this.baseUrl + `/usuario/${data.userId}/inhabilitar`, {});
   } 
   
 }

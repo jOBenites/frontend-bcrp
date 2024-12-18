@@ -111,14 +111,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/roles/nuevo-rol', data]);
   }
 
-  delete(data: any) {
+  delete(data: Role) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Rol', message: '¿Está seguro de eliminar el rol?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.roleService.delete(data.idRol)
+        this.roleService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);

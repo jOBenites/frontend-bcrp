@@ -25,10 +25,10 @@ export class ModuloService {
     return this.http.get<DataSourceModulo>(this.baseUrl + `/modulos?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}`);
   }
   public update(data: Modulo): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + '/modulo/'+ data.idModulo, data);
+    return this.http.put<ApiResponse>(this.baseUrl + '/modulo/'+ data.moduleId, data);
   } 
-  public delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + '/modulo/' + id);
+  public delete(data: Modulo): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + '/modulo/' + data.moduleId);
   }
 
 }

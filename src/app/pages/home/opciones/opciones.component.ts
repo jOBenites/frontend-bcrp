@@ -131,14 +131,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/opciones/nueva-opcion', data]);
   }
 
-  delete(data: any) {
+  delete(data: Opcion) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Opción', message: '¿Está seguro de eliminar la opción?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.opcionService.delete(data.idOpcion)
+        this.opcionService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);
@@ -147,7 +147,7 @@ public formGroup: FormGroup;
           },
           error: err => {
             console.log(err);
-            this.openSnackBar(err.message, '✗', 'error-snackbar');
+            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
           }
         });
       }

@@ -37,11 +37,12 @@ export class AuthService {
 
   public logout(){
     const refresh_token = this.sessionService.getRefreshToken();
+    const token = this.sessionService.getTokenDecoder();
     if (!refresh_token) {
       return of();
     }
 
-    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/logout?refreshToken=${refresh_token}`, {}).pipe(
+    return this.http.post<AuthResponse>(`${this.baseUrl}/oauth/logout?refreshToken=${refresh_token}&username=${token?.preferred_username}`, {}).pipe(
        catchError(() => of()),
        tap(data => this.sessionService.clearTokens())
     );
@@ -49,12 +50,17 @@ export class AuthService {
 
   refreshToken(): Observable<AuthResponse | null> {
     const refresh_token = this.sessionService.getRefreshToken();
+    const token = this.sessionService.getTokenDecoder();
     if (!refresh_token) {
       return of();
     }
-
+    let json = {
+      refresh_token: refresh_token,
+      username: token?.preferred_username
+    }
     return this.http.post<AuthResponse>(
-      `${this.baseUrl}/oauth/refreshToken`, {refresh_token})
+      // `${this.baseUrl}/oauth/refreshToken`, json)
+      `${this.baseUrl}/oauth/refreshToken?refreshToken=${refresh_token}&username=${token?.preferred_username}`, {})
       .pipe(
         take(1),
         tap({next: (data: AuthResponse) => {

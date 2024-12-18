@@ -110,14 +110,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/entidades/nueva-entidad', data]);
   }
 
-  delete(data: any) {
+  delete(data: Entidad) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Entidad', message: '¿Está seguro de eliminar la entidad?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.entidadService.delete(data.idEntidad)
+        this.entidadService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);
@@ -126,7 +126,7 @@ public formGroup: FormGroup;
           },
           error: err => {
             console.log(err);
-            this.openSnackBar(err.message, '✗', 'error-snackbar');
+            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
           }
         });
       }

@@ -138,14 +138,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/usuarios/nuevo-usuario', data]);
   }
 
-  delete(data: any) {
+  delete(data: Usuario) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Usuario', message: '¿Está seguro de eliminar el usuario?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.usuarioService.delete(data.idUsuario)
+        this.usuarioService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);

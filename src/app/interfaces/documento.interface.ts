@@ -1,4 +1,6 @@
 export interface Documento {
-  idDocumentoIdentidad: number;
-  tipoDocumentoIdentidad: string;
+  documentIdentityId: number;
+  documentTypeId: string;
+  groupDocument: number;
+  length: string;
 }

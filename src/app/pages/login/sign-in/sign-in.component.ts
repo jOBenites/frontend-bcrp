@@ -59,9 +59,9 @@ export class SignInComponent implements AfterViewInit {
 
         this.authService.signIn(usuario)
         .subscribe({ next: value => {
-          this.sessionService.setUser(value.nombre);
-          this.sessionService.setToken(value.token);
-          this.sessionService.setRefreshToken(value.refreshToken);
+          this.sessionService.setUser(value.name);
+          this.sessionService.setToken(value.access_token);
+          this.sessionService.setRefreshToken(value.refresh_token);
           this.router.navigate(['login/mfa']);
         }, error: err => {
           console.log(err);

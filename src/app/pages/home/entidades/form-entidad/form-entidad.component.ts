@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { EntidadService } from '../../../../services/entidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
 import { Entidad } from '../../../../models/entidad.model';
 
@@ -33,9 +33,13 @@ export class FormEntidadComponent implements OnInit {
     readonly route: ActivatedRoute,
     readonly router: Router,
     readonly entidadService: EntidadService){
-    let params = this.route.snapshot.params;
-    console.log(params);
-    if(params['idEntidad'] != null){
+    let params: ParamMap = this.route.snapshot.paramMap;
+    let obj:any = {};
+    params.keys.forEach(element => {
+      obj[element] = params.get(element);
+    });
+    let model: Entidad = Object.assign(new Entidad(), obj);
+    if(model.entityId != null){
       this.titulo = 'Editar Entidad' 
       this.buttonTitle = 'Actualizar';
     } else{
@@ -44,13 +48,13 @@ export class FormEntidadComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      idEntidad: [params['idEntidad'] != null ? params['idEntidad'] : 0],
-      idDocumento: [params['idDocumento'] != null ? params['idDocumento'] : '', Validators.required],
-      numeroDocumento: [params['numeroDocumento'] != null ? params['numeroDocumento'] : '', Validators.required],
-      nombre: [params['nombre'] != null ? params['nombre'] : '', Validators.required],
-      sigla: [params['sigla'] != null ? params['sigla'] : '', Validators.required],
-      codExterno: [params['codExterno'] != null ? params['codExterno'] : '', Validators.required],
-      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
+      idEntidad: [model.entityId != null ? model.entityId : 0],
+      idDocumento: [model.documentId != null ? model.documentId : '', Validators.required],
+      numeroDocumento: [model.documentNumber != null ? model.documentNumber : '', Validators.required],
+      nombre: [model.name != null ? model.name : '', Validators.required],
+      sigla: [model.initials != null ? model.initials : '', Validators.required],
+      codExterno: [model.externalCode != null ? model.externalCode : '', Validators.required],
+      estado: [model.state != null ? model.state : '1', Validators.required]
     });
   }
 

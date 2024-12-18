@@ -1,9 +1,7 @@
 export interface AuthResponse {
   id: string;
-  nombre: string;
-  token: string
+  name: string;
   expires_in: number;
-  refreshToken: string;
   refresh_token: string;
   refresh_expires_in: number;
   access_token: string;

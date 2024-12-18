@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../interfaces/api-response.interface';
-import { Modulo } from '../models/modulo.model';
-import { DataSourceModulo } from '../interfaces/datasource-modulo.interface';
 import { Opcion } from '../models/opcion.model';
 import { DataSourceOpcion } from '../interfaces/datasource-opcion.interface';
 
@@ -29,10 +27,10 @@ export class OpcionService {
     return this.http.get<DataSourceOpcion>(this.baseUrl + `/opciones?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&idModulo=${idModulo}`);
   }
   public update(data: Opcion): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + '/opcion/'+ data.idOpcion, data);
+    return this.http.put<ApiResponse>(this.baseUrl + '/opcion/'+ data.optionId, data);
   } 
-  public delete(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.baseUrl + '/opcion/' + id);
+  public delete(data: Opcion): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.baseUrl + '/opcion/' + data.optionId);
   }
 
 }

@@ -2,35 +2,35 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
 export class Perfil {
 
-  readonly idPerfil: number;
-  readonly idSistema: number;
-  readonly idEntidad: number;
-  readonly idRol: number;
-  readonly nombrePerfil: string;
-  readonly estado: string;
+  readonly profileId: number;
+  readonly systemId: number;
+  readonly entityId: number;
+  readonly roleId: number;
+  readonly profileName: string;
+  readonly state: string;
 
   public set setIdPerfil(idPerfil: number) {
-    (this as Writeable<Perfil>).idPerfil = idPerfil;
+    (this as Writeable<Perfil>).profileId = idPerfil;
   }
 
   public set setIdSistema(idSistema: number) {
-    (this as Writeable<Perfil>).idSistema = idSistema;
+    (this as Writeable<Perfil>).systemId = idSistema;
   }
 
   public set setIdEntidad(idEntidad: number) {
-    (this as Writeable<Perfil>).idEntidad = idEntidad;
+    (this as Writeable<Perfil>).entityId = idEntidad;
   }
 
   public set setIdRol(idRol: number) {
-    (this as Writeable<Perfil>).idRol = idRol;
+    (this as Writeable<Perfil>).roleId = idRol;
   }
 
   public set setNombrePerfil(nombrePerfil: string) {
-    (this as Writeable<Perfil>).nombrePerfil = nombrePerfil;
+    (this as Writeable<Perfil>).profileName = nombrePerfil;
   }
 
   public set setEstado(estado: string){
-    (this as Writeable<Perfil>).estado = estado;
+    (this as Writeable<Perfil>).state = estado;
   }
   
 }

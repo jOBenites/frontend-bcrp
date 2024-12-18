@@ -14,7 +14,7 @@
                   <mat-select name="idSistema" formControlName="idSistema">
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of sistemas"
-                      [value]="item.idSistema.toString()">{{item.nombre}}</mat-option>
+                      [value]="item.idSystem.toString()">{{item.name}}</mat-option>
                   </mat-select>
                   @if (formGroup.get('idSistema')?.invalid) {
                     <mat-error>Campo requerido</mat-error>

@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
@@ -42,9 +42,13 @@ export class FormOpcionComponent implements OnInit {
     readonly sistemaService: SistemaService,
     readonly moduleService: ModuloService,
     readonly opcionService: OpcionService){
-    let params = this.route.snapshot.params;
-    console.log(params);
-    if(params['idEntidad'] != null){
+    let params: ParamMap = this.route.snapshot.paramMap;
+            let obj:any = {};
+            params.keys.forEach(element => {
+              obj[element] = params.get(element);
+            });
+    let model: Opcion = Object.assign(new Opcion(), obj);
+    if(model.optionId != null){
       this.titulo = 'Editar Opción' 
       this.buttonTitle = 'Actualizar';
     } else{
@@ -53,12 +57,12 @@ export class FormOpcionComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      idOpcion: [params['idOpcion'] != null ? params['idOpcion'] : 0],
-      idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
-      idModulo: [params['idModulo'] != null ? params['idModulo'] : '', Validators.required],
-      nombre: [params['nombreOpcion'] != null ? params['nombreOpcion'] : '', Validators.required],
-      link: [params['url'] != null ? params['url'] : ''],
-      estado: [params['estado'] != null ? params['estado'] : 1, Validators.required]
+      idOpcion: [model.optionId != null ? model.optionId : 0],
+      idSistema: [model.systemId != null ? model.systemId : '', Validators.required],
+      idModulo: [model.moduleId != null ? model.moduleId : '', Validators.required],
+      nombre: [model.optionName != null ? model.optionName : '', Validators.required],
+      link: [model.url!= null ? model.url : ''],
+      estado: [model.state != null ? model.state : 1, Validators.required]
     });
   }
 

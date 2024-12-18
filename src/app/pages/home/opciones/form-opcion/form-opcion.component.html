@@ -14,7 +14,7 @@
                   <mat-select name="idSistema" formControlName="idSistema">
                     <mat-option value="">--Seleccionar--</mat-option>
                     <mat-option *ngFor="let item of sistemas"
-                      [value]="item.idSistema.toString()">{{item.nombre}}</mat-option>
+                      [value]="item.idSystem.toString()">{{item.name}}</mat-option>
                   </mat-select>
                   @if (formGroup.get('idSistema')?.invalid) {
                   <mat-error>Logo cabecera requerido</mat-error>
@@ -28,7 +28,7 @@
                 <mat-label>Módulo</mat-label>
                 <mat-select name="idModulo" formControlName="idModulo">
                   <mat-option value="">--Seleccionar--</mat-option>
-                  <mat-option *ngFor="let item of modulos" [value]="item.idModulo.toString()">{{item.nombreModulo}}</mat-option>
+                  <mat-option *ngFor="let item of modulos" [value]="item.moduleId.toString()">{{item.moduleName}}</mat-option>
                 </mat-select>
                 @if (formGroup.get('idModulo')?.invalid) {
                 <mat-error>Logo cabecera requerido</mat-error>

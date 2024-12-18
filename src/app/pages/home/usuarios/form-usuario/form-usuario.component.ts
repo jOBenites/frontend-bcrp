@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgFor } from "@angular/common";
-import { RouterModule, ActivatedRoute} from '@angular/router';
+import { RouterModule, ActivatedRoute, Params, ParamMap} from '@angular/router';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { EntidadService } from '../../../../services/entidad.service';
 import { Documento } from '../../../../interfaces/documento.interface';
@@ -33,9 +33,13 @@ export class FormUsuarioComponent implements AfterViewInit {
     readonly route: ActivatedRoute,
     readonly entidadService: EntidadService,
     readonly usuarioService: UsuarioService){
-      let params = this.route.snapshot.params;
-      console.log(params);
-      if(params['idUsuario'] != null){
+      let params: ParamMap = this.route.snapshot.paramMap;
+      let obj:any = {};
+      params.keys.forEach(element => {
+        obj[element] = params.get(element);
+      });
+      let model: Usuario = Object.assign(new Usuario(), obj);
+      if(model.userId != null){
         this.titulo = 'Editar Usuario' 
         this.buttonTitle = 'Actualizar';
         this.showSustento = false;
@@ -46,14 +50,14 @@ export class FormUsuarioComponent implements AfterViewInit {
       }
 
       this.formGroup = this.fb.group({
-        idUsuario: [params['idUsuario'] != null ? params['idUsuario'] : 0, Validators.required],
-        tipoDocumento: [params['idDocumento'] != null ? params['idDocumento'] : '', Validators.required],
-        numeroDocumento: [params['numeroDocumento'] != null ? params['numeroDocumento'] : '', Validators.required],
-        nombres: [params['nombres'] != null ? params['nombres'] : '', Validators.required],
-        apePaterno: [params['apellidoPaterno'] != null ? params['apellidoPaterno'] : '', Validators.required],
-        apeMaterno: [params['apellidoMaterno'] != null ? params['apellidoMaterno'] : '', Validators.required],
-        correoElectronico: [params['correoElectronico'] != null ? params['correoElectronico'] : '', Validators.required],
-        ambito: [params['ambito'] != null ? params['ambito'] : '', Validators.required],
+        idUsuario: [model.userId != null ? model.userId : 0, Validators.required],
+        tipoDocumento: [model.documentId != null ? model.documentId : '', Validators.required],
+        numeroDocumento: [model.documentNumber != null ? model.documentNumber : '', Validators.required],
+        nombres: [model.names != null ? model.names : '', Validators.required],
+        apePaterno: [model.fatherSurname != null ? model.fatherSurname : '', Validators.required],
+        apeMaterno: [model.motherSurname != null ? model.motherSurname : '', Validators.required],
+        correoElectronico: [model.email != null ? model.email : '', Validators.required],
+        ambito: [model.scope != null ? model.scope : '', Validators.required],
         sustento: ['', Validators.required]
       });
   }
@@ -66,6 +70,7 @@ export class FormUsuarioComponent implements AfterViewInit {
     this.entidadService.obtenerDocumentos()
     .subscribe({
       next: res => {
+        console.log(res);
         this.documentos = res;
       },
       error: err => {

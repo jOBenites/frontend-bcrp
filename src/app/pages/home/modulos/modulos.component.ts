@@ -108,14 +108,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/modulos/nuevo-modulo', data]);
   }
 
-  delete(data: any) {
+  delete(data: Modulo) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Módulo', message: '¿Está seguro de eliminar el módulo?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.moduloService.delete(data.idModulo)
+        this.moduloService.delete(data)
           .subscribe({
             next: res => {
             console.log(res);
@@ -124,7 +124,7 @@ public formGroup: FormGroup;
           },
           error: err => {
             console.log(err);
-            this.openSnackBar(err.message, '✗', 'error-snackbar');
+            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
           }
         });
       }

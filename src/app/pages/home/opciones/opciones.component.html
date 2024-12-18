@@ -13,7 +13,7 @@
             <mat-label>Sistema</mat-label>
             <mat-select name="idSistema" formControlName="idSistema">
               <mat-option value="">--Seleccionar--</mat-option>
-              <mat-option *ngFor="let item of sistemas" [value]="item.idSistema.toString()">{{item.nombre}}</mat-option>
+              <mat-option *ngFor="let item of sistemas" [value]="item.idSystem.toString()">{{item.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -23,7 +23,7 @@
             <mat-label>Módulo</mat-label>
             <mat-select name="idModulo" formControlName="idModulo">
               <mat-option value="">--Seleccionar--</mat-option>
-              <mat-option *ngFor="let item of modulos" [value]="item.idModulo.toString()">{{item.nombreModulo}}</mat-option>
+              <mat-option *ngFor="let item of modulos" [value]="item.moduleId.toString()">{{item.moduleName}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -44,7 +44,7 @@
   <div class="custom-container mat-elevation-z2">
     <div class="custom-table-container">
 
-      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="nombreOpcion"
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="idOpcion"
         matSortDirection="desc">
 
         <ng-container matColumnDef="numero">
@@ -54,7 +54,7 @@
 
         <ng-container matColumnDef="opcion">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Opción</th>
-          <td mat-cell *matCellDef="let row">{{row.nombreOpcion}}</td>
+          <td mat-cell *matCellDef="let row">{{row.optionName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="link">

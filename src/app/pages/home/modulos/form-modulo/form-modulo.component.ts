@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
@@ -38,9 +38,13 @@ export class FormModuloComponent implements OnInit {
     readonly router: Router,
     readonly sistemaService: SistemaService,
     readonly moduloService: ModuloService){
-    let params = this.route.snapshot.params;
-    console.log(params);
-    if(params['idModulo'] != null){
+    let params: ParamMap = this.route.snapshot.paramMap;
+        let obj:any = {};
+        params.keys.forEach(element => {
+          obj[element] = params.get(element);
+        });
+    let model: Modulo = Object.assign(new Modulo(), obj);
+    if(model.moduleId != null){
       this.titulo = 'Editar Módulo' 
       this.buttonTitle = 'Actualizar';
     } else{
@@ -48,14 +52,11 @@ export class FormModuloComponent implements OnInit {
       this.buttonTitle = 'Registrar';
     }
 
-    let idModulo = params['idModulo'] != null ? params['idModulo'] : 0;
-    let idSistema = params['idSistema'] != null ? params['idSistema'] : '';
-    let nombre = params['nombreModulo'] != null ? params['nombreModulo'] : '';
     this.formGroup = this.fb.group({
-      idModulo: [idModulo],
-      idSistema: [idSistema, Validators.required],
-      nombre: [nombre, Validators.required],
-      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
+      idModulo: [model.moduleId != null ? model.moduleId : 0],
+      idSistema: [model.systemId != null ? model.systemId : '', Validators.required],
+      nombre: [model.moduleName != null ? model.moduleName : '', Validators.required],
+      estado: [model.state != null ? model.state : '1', Validators.required]
     });
   }
 

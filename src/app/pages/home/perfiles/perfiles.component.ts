@@ -111,14 +111,14 @@ public formGroup: FormGroup;
     this.router.navigate(['home/perfiles/nuevo-perfil', data]);
   }
 
-  delete(data: any) {
+  delete(data: Perfil) {
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       width: '250px',
       data: {title: 'Eliminar Perfil', message: '¿Está seguro de eliminar el Perfil?'}
     });
     dialogRef.afterClosed().subscribe((result) => {
       if(result) {
-        this.perfilService.delete(data.idPerfil)
+        this.perfilService.delete(data)
           .subscribe({
             next: res => {
             this.openSnackBar(res.message, '✓', 'success-snackbar');

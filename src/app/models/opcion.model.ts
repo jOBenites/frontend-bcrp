@@ -2,27 +2,27 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
 export class Opcion {
 
-  readonly idOpcion: number;
-  readonly idModulo: number;
-  readonly idSistema: string;
-  readonly nombreOpcion: string;
+  readonly optionId: number;
+  readonly moduleId: number;
+  readonly systemId: string;
+  readonly optionName: string;
   readonly url: string;
-  readonly estado: string;
+  readonly state: string;
 
   public set setIdOpcion(idOpcion: number) {
-    (this as Writeable<Opcion>).idOpcion = idOpcion;
+    (this as Writeable<Opcion>).optionId = idOpcion;
   }
 
   public set setIdModulo(idModulo: number) {
-    (this as Writeable<Opcion>).idModulo = idModulo;
+    (this as Writeable<Opcion>).moduleId = idModulo;
   }
 
   public set setIdSistema(idSistema: string) {
-    (this as Writeable<Opcion>).idSistema = idSistema;
+    (this as Writeable<Opcion>).systemId = idSistema;
   }
 
   public set setNombreModulo(nombreOpcion: string) {
-    (this as Writeable<Opcion>).nombreOpcion = nombreOpcion;
+    (this as Writeable<Opcion>).optionName = nombreOpcion;
   }
 
   public set setUrl(url: string) {
@@ -30,7 +30,7 @@ export class Opcion {
   }
 
   public set setEstado(estado: string){
-    (this as Writeable<Opcion>).estado = estado;
+    (this as Writeable<Opcion>).state = estado;
   }
   
 }
