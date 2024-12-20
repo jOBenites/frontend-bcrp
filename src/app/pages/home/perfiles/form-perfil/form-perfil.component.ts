@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { EntidadService } from '../../../../services/entidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
 import { Entidad } from '../../../../models/entidad.model';
 import { SistemaService } from '../../../../services/sistema.service';
@@ -46,9 +46,13 @@ export class FormPerfilComponent implements OnInit {
     readonly entidadService: EntidadService,
     readonly roleService: RoleService,
     readonly perfilService: PerfilService){
-    let params = this.route.snapshot.params;
-    console.log(params);
-    if(params['idPerfil'] != null) {
+    let params: ParamMap = this.route.snapshot.paramMap;
+    let obj:any = {};
+    params.keys.forEach(element => {
+      obj[element] = params.get(element);
+    });
+    let model: Perfil = Object.assign(new Perfil(), obj);
+    if(model.profileId != null) {
       this.titulo = 'Editar Perfil' 
       this.buttonTitle = 'Actualizar';
     } else {
@@ -57,12 +61,12 @@ export class FormPerfilComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      idPerfil: [params['idPerfil'] != null ? params['idPerfil'] : 0],
-      idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
-      idEntidad: [params['idEntidad'] != null ? params['idEntidad'] : '', Validators.required],
-      idRol: [params['idRol'] != null ? params['idRol'] : '', Validators.required],
-      nombre: [params['nombrePerfil'] != null ? params['nombrePerfil'] : '', Validators.required],
-      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
+      idPerfil: [model.profileId != null ? model.profileId : 0],
+      idSistema: [model.systemId != null ? model.systemId : '', Validators.required],
+      idEntidad: [model.entityId != null ? model.entityId : '', Validators.required],
+      idRol: [model.roleId != null ? model.roleId : '', Validators.required],
+      nombre: [model.profileName != null ? model.profileName : '', Validators.required],
+      estado: [model.state != null ? model.state : '1', Validators.required]
     });
   }
 

@@ -23,7 +23,8 @@ export class PerfilService {
   }
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, idSistema: string,
     perfil: string): Observable<DataSourcePerfil> {
-    return this.http.get<DataSourcePerfil>(this.baseUrl + `/perfiles?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&idPerfil=${perfil}`);
+    return this.http.get<DataSourcePerfil>(this.baseUrl + `/perfiles?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&systemId=${idSistema}&profileId=${perfil}`);
   }
   public update(data: Perfil): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/perfil/'+ data.profileId, data);

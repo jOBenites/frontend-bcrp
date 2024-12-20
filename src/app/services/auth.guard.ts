@@ -14,7 +14,11 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const token = this.session.getToken();
+    const isValidOTPCode = this.session.isValidOTPCode();
     if (token) {
+      if(!isValidOTPCode) {
+        this.router.navigate(['/login/mfa']);
+      }
       return true;
     } else {
       this.router.navigate(['/login']);

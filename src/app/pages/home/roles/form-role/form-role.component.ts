@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { Location, NgFor } from "@angular/common";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Documento } from '../../../../interfaces/documento.interface';
 import { SistemaService } from '../../../../services/sistema.service';
 import { Sistema } from '../../../../models/sistema.model';
@@ -38,9 +38,13 @@ export class FormRoleComponent implements OnInit {
     readonly router: Router,
     readonly sistemaService: SistemaService,
     readonly roleService: RoleService){
-    let params = this.route.snapshot.params;
-    console.log(params);
-    if(params['idRol'] != null){
+    let params: ParamMap = this.route.snapshot.paramMap;
+    let obj:any = {};
+    params.keys.forEach(element => {
+      obj[element] = params.get(element);
+    });
+    let model: Role = Object.assign(new Role(), obj);
+    if(model.roleId != null){
       this.titulo = 'Editar Rol' 
       this.buttonTitle = 'Actualizar';
     } else {
@@ -49,10 +53,10 @@ export class FormRoleComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      idRol: [params['idRol'] != null ? params['idRol'] : 0],
-      idSistema: [params['idSistema'] != null ? params['idSistema'] : '', Validators.required],
-      nombre: [params['nombreRol'] != null ? params['nombreRol'] : '', Validators.required],
-      estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
+      idRol: [model.roleId != null ? model.roleId : 0],
+      idSistema: [model.systemId != null ? model.systemId : '', Validators.required],
+      nombre: [model.roleName != null ? model.roleName : '', Validators.required],
+      estado: [model.state != null ? model.state : '1', Validators.required]
     });
   }
 

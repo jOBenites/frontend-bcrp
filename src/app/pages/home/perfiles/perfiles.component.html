@@ -40,7 +40,7 @@
   <div class="custom-container mat-elevation-z2">
     <div class="custom-table-container">
 
-      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="nombre"
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortActive="idPerfil"
         matSortDirection="desc">
 
         <ng-container matColumnDef="numero">
@@ -50,12 +50,12 @@
 
         <ng-container matColumnDef="sistema">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Sistema</th>
-          <td mat-cell *matCellDef="let row">{{row.nombreSistema}}</td>
+          <td mat-cell *matCellDef="let row">{{row.systemName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="perfil">
           <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Perfil</th>
-          <td mat-cell *matCellDef="let row">{{row.nombrePerfil}}</td>
+          <td mat-cell *matCellDef="let row">{{row.profileName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="action">

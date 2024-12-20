@@ -128,7 +128,7 @@ public formGroup: FormGroup;
             if(err.error.message) {
               this.openSnackBar(err.error.message, '✗', 'error-snackbar');
             } else {
-              this.openSnackBar(err.message, '✗', 'error-snackbar');
+              this.openSnackBar(err.error.message, '✗', 'error-snackbar');
             }
           }
         });

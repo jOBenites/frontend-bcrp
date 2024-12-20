@@ -112,7 +112,7 @@ constructor(readonly fb: FormBuilder,
           },
           error: err => {
             console.log(err);
-            this.openSnackBar(err.message, '✗', 'error-snackbar');
+            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
           }
         });
       }

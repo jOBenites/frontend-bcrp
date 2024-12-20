@@ -23,7 +23,8 @@ export class RoleService {
   }
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, idSistema: string,
     rol: string): Observable<DataSourceRole> {
-    return this.http.get<DataSourceRole>(this.baseUrl + `/roles?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&idRol=${rol}`);
+    return this.http.get<DataSourceRole>(this.baseUrl + `/roles?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&systemId=${idSistema}&roleId=${rol}`);
   }
   public update(data: Role): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/rol/'+ data.roleId, data);

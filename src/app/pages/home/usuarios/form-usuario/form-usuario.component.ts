@@ -67,7 +67,7 @@ export class FormUsuarioComponent implements AfterViewInit {
   }
 
   getTiposDocumentos(){
-    this.entidadService.obtenerDocumentos()
+    this.usuarioService.obtenerDocumentos()
     .subscribe({
       next: res => {
         console.log(res);

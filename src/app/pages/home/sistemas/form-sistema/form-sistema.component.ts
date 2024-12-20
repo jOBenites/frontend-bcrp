@@ -9,10 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location, NgFor } from "@angular/common";
 import { SistemaService } from '../../../../services/sistema.service';
-import { RouterModule, ActivatedRoute} from '@angular/router';
+import { RouterModule, ActivatedRoute, ParamMap} from '@angular/router';
 import { Persona } from '../../../../interfaces/persona.interface';
 import { Estado } from '../../../../interfaces/estado.interface';
 import { MatRadioModule } from '@angular/material/radio';
+import { Sistema } from '../../../../models/sistema.model';
 
 @Component({
   selector: 'app-form-sistema',
@@ -35,32 +36,36 @@ export class FormSistemaComponent implements AfterViewInit {
     readonly location: Location,
     readonly route: ActivatedRoute,
     readonly sistemaService: SistemaService){
-      let params = this.route.snapshot.params;
-      console.log(params);
-      if(params['idSistema'] != null){
+    let params: ParamMap = this.route.snapshot.paramMap;
+    let obj:any = {};
+    params.keys.forEach(element => {
+      obj[element] = params.get(element);
+    });
+    let model: Sistema = Object.assign(new Sistema(), obj);
+      if(model.idSystem != null){
         this.titulo = 'Editar Sistema' 
         this.buttonTitle = 'Actualizar';
-        this.responsableMain = params['usuarioResponsable'];
-        this.responsableAlt = params['usuarioResponsableAlterno'];
+        this.responsableMain = model.userResponsible;
+        this.responsableAlt = model.userResponsibleAlternate;
       } else {
         this.titulo = 'Nuevo sistema';
         this.buttonTitle = 'Registrar';
       }
 
       this.formGroup = this.fb.group({
-        idSistema: [params['idSistema'] != null ? params['idSistema'] : 0],
+        idSistema: [model.idSystem != null ? model.idSystem : 0],
         // codigo: [params['codigo'] != null ? params['codigo'] : ''],
-        sistema: [params['nombre'] != null ? params['nombre'] : '', Validators.required],
-        version: [params['version'] != null ? params['version'] : '', Validators.required],
-        url: [params['url'] != null ? params['url'] : '', Validators.required],
-        urlExterno: [params['urlExterno'] != null ? params['urlExterno'] : '', Validators.required],
-        logoHead: [params['logoHead'] != null ? params['logoHead'] : '', Validators.required],
-        logoMain: [params['logoMain'] != null ? params['logoMain'] : '', Validators.required],
-        usuarioResponsable: [params['idUsuarioResponsable'] != null ? params['idUsuarioResponsable'] : '', Validators.required],
-        usuarioResponsableAlt: [params['idUsuarioResponsableAlterno'] != null ? params['idUsuarioResponsableAlterno'] : '', Validators.required],
-        idEstadoCritico: [params['idEstadoCritico'] != null ? params['idEstadoCritico'] : '', Validators.required],
-        unidOrganizacional: [params['unidadOrganizacional'] != null ? params['unidadOrganizacional'] : '', Validators.required],
-        estado: [params['estado'] != null ? params['estado'] : '1', Validators.required]
+        sistema: [model.name != null ? model.name : '', Validators.required],
+        version: [model.version != null ? model.version : '', Validators.required],
+        url: [model.url != null ? model.url : '', Validators.required],
+        urlExterno: [model.urlExternal != null ? model.urlExternal : '', Validators.required],
+        logoHead: [model.logoHead != null ? model.logoHead : '', Validators.required],
+        logoMain: [model.logoMain != null ? model.logoMain : '', Validators.required],
+        usuarioResponsable: [model.idUserResponsible != null ? model.idUserResponsible : '', Validators.required],
+        usuarioResponsableAlt: [model.idUserResponsibleAlternate != null ? model.idUserResponsibleAlternate : '', Validators.required],
+        idEstadoCritico: [model.idStateCritical != null ? model.idStateCritical : '', Validators.required],
+        unidOrganizacional: [model.unitOrganizational != null ? model.unitOrganizational : '', Validators.required],
+        estado: [model.estate != null ? model.estate : '1', Validators.required]
       });
   }
 
@@ -101,31 +106,31 @@ export class FormSistemaComponent implements AfterViewInit {
 
       let formData = new FormData();
       // formData.append("codigo", this.formGroup.get('codigo')?.value);
-      formData.append("nombre", this.formGroup.get('sistema')?.value);
+      formData.append("name", this.formGroup.get('sistema')?.value);
       formData.append("version", this.formGroup.get('version')?.value);
       formData.append("url", this.formGroup.get('url')?.value);
-      formData.append("urlExterno", this.formGroup.get('urlExterno')?.value);
-      formData.append("idUsuarioResponsable", this.formGroup.get('usuarioResponsable')?.value);
-      formData.append("idUsuarioResponsableAlt", this.formGroup.get('usuarioResponsableAlt')?.value);
-      formData.append("usuarioResponsable", this.responsableMain);
-      formData.append("usuarioResponsableAlt", this.responsableAlt);
-      formData.append("idEstadoCritico", this.formGroup.get('idEstadoCritico')?.value);
-      formData.append("unidOrganizacional", this.formGroup.get('unidOrganizacional')?.value);
-      formData.append("estado", this.formGroup.get('estado')?.value);
+      formData.append("urlExternal", this.formGroup.get('urlExterno')?.value);
+      formData.append("idUserResponsible", this.formGroup.get('usuarioResponsable')?.value);
+      formData.append("idUserResponsibleAlternate", this.formGroup.get('usuarioResponsableAlt')?.value);
+      formData.append("userResponsible", this.responsableMain);
+      formData.append("userResponsibleAlternate", this.responsableAlt);
+      formData.append("idStateCritical", this.formGroup.get('idEstadoCritico')?.value);
+      formData.append("unitOrganizational", this.formGroup.get('unidOrganizacional')?.value);
+      formData.append("estate", this.formGroup.get('estado')?.value);
 
       let fileLogoHead = this.formGroup.get('logoHead')?.value;
       if (fileLogoHead instanceof File) {
-        formData.append('imageLogoHead', fileLogoHead, fileLogoHead.name);
+        formData.append('logoHead', fileLogoHead, fileLogoHead.name);
       }
       let fileLogoMain = this.formGroup.get('logoMain')?.value;
       if (fileLogoMain instanceof File) {
-        formData.append('imageLogoMain', fileLogoMain, fileLogoMain.name);
+        formData.append('logoMain', fileLogoMain, fileLogoMain.name);
       }
 
       if(this.formGroup.get('idSistema')?.value == 0){
         this.insert(formData);
       } else {
-        formData.append("idSistema", this.formGroup.get('idSistema')?.value);
+        formData.append("idSystem", this.formGroup.get('idSistema')?.value);
         this.update(formData);
       }
     }

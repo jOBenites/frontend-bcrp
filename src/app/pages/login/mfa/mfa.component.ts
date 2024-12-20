@@ -56,14 +56,15 @@ export class MfaComponent implements OnInit {
         usuario.setOtp =  this.formGroup.get('otp')?.value;
 
         this.authService.verifyOtp(usuario)
-        .subscribe({ next: value => {
+        .subscribe({ next: (value: any) => {
           console.log(value);
+          this.sessionService.setIsValidOTPCode(value.isOtpValid);
           this.router.navigate(['portal']);
         }, error: err => {
           console.log(err);
-          if(err.error.mensaje) {
-            this.formGroup.get('otp')?.setErrors({invalid: true, message: err.error.mensaje});
-            this.openSnackBar(err.error.mensaje, '✗', 'error-snackbar');
+          if(err.error.message) {
+            this.formGroup.get('otp')?.setErrors({invalid: true, message: err.error.message});
+            this.openSnackBar(err.error.message, '✗', 'error-snackbar');
           } else {
             this.formGroup.get('otp')?.setErrors({invalid: true, message: err.message});
             this.openSnackBar(err.message, '✗', 'error-snackbar');

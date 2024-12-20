@@ -14,6 +14,13 @@ export class SessionService {
         return !helper.isTokenExpired();
     }
 
+    isValidOTPCode(): boolean {
+        if(localStorage.getItem('valid_otp')) {
+            return true;
+        }
+        return false;
+    }
+
     setUser(value: string) {
         localStorage.setItem('user', value);
     }
@@ -25,6 +32,9 @@ export class SessionService {
     }
     setRefreshToken(value: any) {
         localStorage.setItem('refresh_token', value);
+    }
+    setIsValidOTPCode(value: string) {
+        localStorage.setItem('valid_otp', value);
     }
 
     getToken(): string | null {

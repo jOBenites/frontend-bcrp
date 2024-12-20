@@ -25,7 +25,8 @@ export class SistemaService {
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string,
     codigo: string, nombre: string, version: string
   ): Observable<DataSourceSistema> {
-    return this.http.get<DataSourceSistema>(this.baseUrl + `/sistemas?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&codigo=${codigo}&nombre=${nombre}&version=${version}`);
+    return this.http.get<DataSourceSistema>(this.baseUrl + `/sistemas?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&name=${nombre}&version=${version}`);
   }
   public update(data: FormData): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/sistema', data);

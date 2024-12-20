@@ -24,7 +24,8 @@ export class OpcionService {
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, idSistema: string,
     idModulo:string
   ): Observable<DataSourceOpcion> {
-    return this.http.get<DataSourceOpcion>(this.baseUrl + `/opciones?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}&idModulo=${idModulo}`);
+    return this.http.get<DataSourceOpcion>(this.baseUrl + `/opciones?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&systemId=${idSistema}&moduleId=${idModulo}`);
   }
   public update(data: Opcion): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/opcion/'+ data.optionId, data);

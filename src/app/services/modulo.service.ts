@@ -22,7 +22,8 @@ export class ModuloService {
     return this.http.get<DataSourceModulo>(this.baseUrl + '/modulos');
   }
   public readPaginate(pageNumber: number, pageSize: number, sortBy: string, sortOrder: string, idSistema: string): Observable<DataSourceModulo> {
-    return this.http.get<DataSourceModulo>(this.baseUrl + `/modulos?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}&idSistema=${idSistema}`);
+    return this.http.get<DataSourceModulo>(this.baseUrl + `/modulos?pageNumber=${pageNumber}&pageSize=${pageSize}
+      &sortBy=${sortBy}&sortOrder=${sortOrder}&systemId=${idSistema}`);
   }
   public update(data: Modulo): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(this.baseUrl + '/modulo/'+ data.moduleId, data);
